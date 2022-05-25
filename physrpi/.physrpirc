@@ -1,0 +1,134 @@
+#
+# .physrpirc - Shell setup for physics class Raspberry Pi
+#
+# 10May22  Replaced /home/pi with $HOME in $COURSEDIR
+# 29Sep21  Added lb alias
+# 18Feb19  Added plib directory to $PYTHONPATH
+# 27Sep18  Added code to run xmodmap
+# 21Sep18  Removed spurious colon at the end of $PYTHONPATH
+# 19Sep18  Updated for course-independent configuration
+# 20Jun18  Updated for 129m18
+# 25Apr18  Added cy alias
+# 29Mar18  Updated for 129s18
+# 16Jan18  Updated for 13b18
+# 29Mar17  Updated for 129s17
+# 29Jun16  Updated for 150m16
+# 27May16  Everett Lipman
+#
+
+#*** environment **************************************************************
+
+COURSEDIR=${HOME}/physrpi
+INSTRUCTORS="campagnari mazin"
+
+# unset HISTFILE
+unset LANG
+
+ulimit -S -c 0 > /dev/null
+umask 022
+trap  2 3
+
+export PATH CDPATH PYTHONPATH PYTHONSTARTUP
+
+CDPATH=.:${HOME}:${COURSEDIR}
+
+for i in $INSTRUCTORS
+  do
+     PATH=$COURSEDIR/${i}/bin:$COURSEDIR/${i}/scripts:$PATH
+  done
+PATH=$COURSEDIR/bin:$COURSEDIR/scripts:$PATH
+PATH=${PATH}:.
+
+for i in $INSTRUCTORS
+  do
+     PYTHONPATH=$COURSEDIR/${i}/python:$PYTHONPATH
+  done
+PYTHONPATH=$COURSEDIR/python:$COURSEDIR/plib:$PYTHONPATH
+PYTHONPATH=`echo $PYTHONPATH | sed -e 's/:$//'`
+PYTHONSTARTUP=$COURSEDIR/python/startup3.py
+
+set -o emacs   #emacs command line editing mode
+set -o ignoreeof 
+set -o noclobber
+set -o physical
+
+stty echoe tab3 -istrip erase 
+
+#*** set prompt ***************************************************************
+
+uid=`id -u`
+
+if [ $uid -eq 0 ]
+then
+   PS1=$HOSTNAME:'$PWD# '
+else
+   PS1=$HOSTNAME:'$PWD$ '
+fi
+
+#*** remap some keys **********************************************************
+
+if [ -n "$DISPLAY" -a -r ${HOME}/.xmodmap ]
+then
+   xmodmap ${HOME}/.xmodmap
+fi
+
+#*** some aliases *************************************************************
+
+alias c='clear' \
+      cp='cp -i' \
+      cy='clear; python3' \
+      dfr='find . -maxdepth 1 -mtime -1 -o -ctime -1' \
+      fix='tput reset' \
+      fs='fixres; startx' \
+      g='egrep -i' \
+      h='history' \
+      ipython='ipython3' \
+      ls='ls -F --color=tty' \
+      la='ls -aF' \
+      lb='lsblk' \
+      ll='ls -alF' \
+      mp='mupdf' \
+      mv='mv -i' \
+      pc='python3 -iI -c "import math"' \
+      pf='dpkg --search' \
+      pi='dpkg --status' \
+      pidown='sudo shutdown -h now' \
+      pl='dpkg --list' \
+      plf='dpkg --listfiles' \
+      py='python3' \
+      python='python3' \
+      rm='rm -i' \
+      s='sync;sync' \
+      sum='md5sum' \
+      ta='type -a' \
+      xlo='pkill lxsession'
+
+#*** shell functions **********************************************************
+
+gv()
+{
+/usr/bin/gv -geometry -10+10 $* &
+}
+
+nrun()
+{
+iter=$1
+shift
+cmd="$1"
+shift
+while [ $iter -gt 0 ]
+do
+   iter=`expr $iter - 1`
+   $cmd $*
+done
+}
+
+run()
+{
+cmd="$1"
+shift
+for i in $*
+do
+   $cmd $i
+done
+}

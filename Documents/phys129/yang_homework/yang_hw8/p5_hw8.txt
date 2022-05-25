@@ -1,0 +1,36 @@
+Phys129L S22
+HW8 p5
+Richard Yang
+2022/05/20
+====================
+Problem Description: 
+5. Threaded Stripchart. 
+Modify your stripchart program from the previous homework set so that it 
+displays the value of a global variable. Have your program spawn a thread
+that continuously prompts the user for a new value and places it in the 
+global variable.
+The chart should then display the most recent number entered. Make sure 
+your program can deal gracefully with non-numeric input.
+Hints: See thread example.py and error handling.py .
+You will have to declare the global variable using the global keyword in 
+your thread function so that the input value is visible to the rest of the 
+program
+====================
+
+	The program relevant to this problem is titled "p5_hw8.py" (hereby called "the program") 
+
+-------------------
+Begin description of the programs below:
+
+	From a high level, this python programs uses threading to run two threads of operations at the same time. The main thread handles the matplotlib plotting, which is done using the Scope class as defined in the stripchart.py example program to achieve continuously plotting. The other thread handles input from keyboard, and updates a global variable that is reflected in the plot in the main thread. The main advantage is that the stripchart can be refreshed in a way that is indepedent to the keyboard input, which buffers for an <Enter> key for every input. 
+
+	In terms of the specific construction of the program, the program creates a new thread using the threading.Thread class. The argument passed to the creation of this class, 'args = (0,)', reflects the fact that only 1 additional thread needs to be created. The function passed to the threat creation is called thethread, i.e. target = thethread, 
+
+	As shown in the earlier part of the script, the function thethread declares two global variables: Exit and Num. It then creates an infinite loop that prompts for user input. Proper error handling is done by using the careful_float function. This function also uses global variables Exit and Num. If the user input is "q", it sets Exit to be True, and exits the thread (i.e. the secondary thread, aka non-main thread). Otherwise, the rest of the careful_float gets executed. The function tries to convert the input N to a float. If a ValueError is raised, the previous Num is returned, and a error message is printed to standard output. If N is converted successfully to a float, then Num is updated to be this new float N, and this new Num is returned. In summary, the new thread is just a infinite input while loop with error handling that returns two global variables: Num and Exit.
+
+	The part of the script after the thr.start() is executed by the main thread. The main thread initates the Scope class, and creates the animation using the Scope as per the usual stripchart. Inside the Scope class, note that the emitter function yields t and Num, where Num is subject to change by the secondary thread. The update function, which takes in the output of the emitter in the form of a tuple (t, Num), appends the first element to the tdata and the second element to the ydata. Note also that the update function first checks if the global variable Exit is True. If True, then all matplotlib figures are closed, and this main thread is exited.
+
+--------------------
+End of program description.
+====================
+End of solution.

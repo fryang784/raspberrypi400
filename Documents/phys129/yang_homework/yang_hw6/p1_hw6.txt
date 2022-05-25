@@ -1,0 +1,21 @@
+Phys129L S22
+HW6 p1
+Richard Yang
+2022/05/05
+====================
+Problem Description:
+1. Project Guidelines. 
+Read the Project Guidelines Handout on the course web page.
+Be sure to send your project description paragraph to Prof. Lipman before the
+due date specified in the handout.
+====================
+
+	Read the Project Guidelines Handout.
+
+	Also talked with Prof. Lipman on Thursday to get some inputs to the scope of my project. 
+
+	Here is a copy of my final project proposal, emailed to Prof. Lipman on Thursday: 
+
+	For my final project, I am thinking of designing a python-based computer game program. I want to start with re-creating the basic features from the 'snake' game, such that the game will be self-contained in the terminal. That is, the idea is to play 'snake' by simply running a python script in the terminal. Once this basic structure is properly set-up and debugged, there are several additional features I am interested in implementing. These include minor aesthetics upgrades--such as better game display, 'real' physics mechanics incorporation (i.e. incorporate acceleration into the motion,  make the snake's speed be dependent to its 'mass', i.e. how long the snake is, etc.), and other interesting incorporations, such as loading specifically constructed maps with unique terrains and obstacles (perhaps one can even play snake on some simple maps of UCSB campus), or constructing a 3D snake game. 
+====================
+End of solution.

@@ -1,0 +1,58 @@
+#!/bin/sh
+
+#
+# ds - Compute checksum of all files under specified directory.
+#
+# 22Jan11  Added -noleaf to find command
+# 29Dec10  Modified to unset CDPATH before cd
+# 13Jan10  Modified to deal with spaces in directory names
+# 05Oct09  Modified to deal with spaces in filenames and specification of
+#             a directory on the command line 
+# 23Nov08  Written by Everett Lipman
+#
+
+SUMCOMMAND=md5sum
+
+PROGNAME=`basename $0`
+USAGE="$PROGNAME [directory]"
+NARGSa=0
+NARGSb=1
+
+error_exit()
+{
+echo ""
+echo $1
+echo ""
+echo "$PROGNAME exiting."
+echo ""
+exit 1
+}
+
+errorcheck()
+{
+if [ $? -ne 0 ]
+then
+   error_exit "Error $1"
+fi
+}
+
+if [ $# -ne $NARGSa -a $# -ne $NARGSb ]
+then
+   error_exit "usage: $USAGE"
+fi
+
+echo
+
+if [ $# -eq 1 ]
+then
+   unset CDPATH
+   cd "$1" > /dev/null
+   errorcheck "changing to specified directory."
+fi
+
+find . -noleaf -type f | sort | while read i  # deal with spaces in filenames
+do
+   cat "$i"
+done | $SUMCOMMAND
+
+echo

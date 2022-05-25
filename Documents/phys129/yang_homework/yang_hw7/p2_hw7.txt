@@ -1,0 +1,35 @@
+Phys129L S22
+HW7 p2
+Richard Yang
+2022/05/12
+====================
+Problem Description:
+2. Stripchart. 
+Modify the example program stripchart.py to produce a continuously running plot
+of sin(ωt) vs. t, with ω = π rad/s.
+====================
+
+	The program relevant to this problem is titled "p2_hw7.py" (hereby called "the program"). 
+
+Begin description of the program below:
+--------------------
+
+	The program uses all the structures and mechanisms used in the program "stripchart" in the python directory ($HOME/physrpi/python). 
+
+	The feature of a strip chart is achieved by using matplotlib.animation method. Thie method makes an animation by repeatedly calling a function. From Matplotlib documentation web page, FuncAnimation takes in as arguments a fig, a function, and some other defaulted-unless-otherwise-specified arguments. Since there is only one input as "function", I am a little confused where in "stripchart.py" we seem to be able to supply two functions: scope.update and scope.emitter. I think this may have to do with the trailing comma at the end of update function definition. If I remove the trailing comma, the program outputs "TypeError: 'Line2D' object is not iterable". After some Googling, I found that a trailing comma after a return statement tells Python to return the value as a tuple. Maybe it is because of the trailing comma in the update function that we are able to send two functions to the FuncAnimation? 
+
+	After talking with Prof. Lipman during Friday's office hour, I realized that both the update and emitter functions are necessary to this animation. The strange behavior associated to the trailing comma is still not well-understood. 
+	
+	Anyhow, I will move on with the rest of the program. 
+
+	Inside the class Scope, we first have __init__ function. This function initiates the self, which is how we refer to the class itself from within a class. As we see in the code, it assigns a bunch of fields or attributes to the Scope object, such as self.ax, self.dt, self.w . The last one mentioned is the angular velocity omega for the sine function, which is needed as an input argument of the __init__ function. In this way, these attributes will be callable by other functions inside this class. 
+
+	The update function within the class Scope appends the t data and y data based on most recent time window (maxt=2 by default, by later in the script we manually set it to maxt=10). It also (re-)sets the xaxis limit, (re-)draws the canas, and returns the updated self.line field.
+
+	The emitter function is a generator. It computes the sine(w*t), and yields its result whenever it is called by the animation.FuncAnimation. The rate of this calling is set by the frame rate of animation, which is set by the FuncAnimation input argument called interval. Interval is the delay between frames in milliseconds. This is why in the script we need to specify interval=dt*1000. . 
+
+	The rest of the script defines some variables, constructs the class Scope, and uses the animation.FuncAnimation method with predefined arguments. 
+--------------------
+End of program description.
+====================
+End of solution.

@@ -1,0 +1,41 @@
+Phys129L S22
+HW8 p4
+Richard Yang
+2022/05/19
+====================
+Problem Description:
+4. fork() and execv()
+a. From an interactive Python prompt, use os.execv() to execute the ls 
+   command. Explain what you see after the command has finished running.
+b. Write a program that starts counting from 1, printing the next number 
+   every half second. Each time the program reaches a multiple of 10, it 
+   should announce that it is about to fork, and then fork. The child 
+   process should then announce that it is about to execute ls, and then 
+   execute ls -l using os.execv().
+====================
+
+	The python program relevant to this problem is titled "p4_hw8.py" (hereby called "the program"). This is only for part (b).
+
+	Part (a) asks us to use a Python interactive shell to use os.execv() to execute the 'ls' command. Here is what I saw:
+	
+cd 
+python3
+>>> import os
+>>> os.execv('/bin/ls', (' ',))
+Bookshelf       Desktop    Downloads  Music    Pictures  Templates  Videos
+config_physrpi  Documents  foo.py     physrpi  Public    USBport
+fyrpi400:/home/pi$ 
+
+	os.execv replaces the current process with a new one and executes that process. After that proccess is finished, the process is closed. In the second line of the code block shown above, I call in the first argument the process '/bin/ls', which is the actual binary program for the ls command. The second argument is the argument to be passed into this process. By passing a tuple with a empty space as its only element, I simply imply running the ls command with no optional arguments. The result of running the shell ls is displayed in the next two lines (the python interative shell is opened in the home directory). After the ls process finishes its display on the screen, the terminal display shows up, indicating that the previous python process indeed has been terminated. 
+
+	I will now talk about the program as pertaining to part (b) of this problem below. 
+
+-------------------
+Begin description of the programs below:
+
+	The entire program is essentially one infinite while loop. Every iteration of the loop increments the counter by 1. Every 10th iteration, the program announces that it is about to fork, and it forks by using os.fork(). This creates a new thread of the process that copies exactly the same set up (i.e. a struct) as the main thread, and continues to execute the rest of code in both the parent and the child processes. Note that the line 'os.fork()' is also executed by both programs. If the thread is the child thread, the return value retval = 0; if the thread is the parent thread, the return value retval = the child PID. The next line (executed by both threads) thus checks if the current thread is the child thread. If True, then it announces that it is about to execute the ls command, and it executes it by using the os.execv. Note that the option '-l' is passed to the '/bin/ls/'command as well. As discussed in part (a), os.execv replaces the current thread by the command it takes in (i.e. the 'ls' command). This means after ls is executed, the child thread is done and terminated. Note that the parent thread continues to live on.
+
+--------------------
+End of program description.
+====================
+End of solution.

@@ -1,0 +1,210 @@
+#!/bin/bash
+
+#
+# screen_setup - Set up Raspberry Pi graphical interface
+#
+# 29Sep21  Added code to run vm script at startup
+# 15Apr20  Disabled automounting by pcmanfm
+# 03Apr20  Removed file manager from menu
+# 28Jun19  Written by Everett Lipman
+#
+
+TRM="physrpi"
+CONFDIR="${HOME}/config_$TRM"
+COURSEDIR=${HOME}/physrpi
+INSTALL=$COURSEDIR/osbackup
+SETCLOCK="scripts/setclock"
+APTGET="apt-get"
+APTITUDE="aptitude"
+GUIBASE="/etc/xdg"
+FILEMANAGER="/usr/share/raspi-ui-overrides/applications/pcmanfm.desktop"
+FILEMANAGER="$FILEMANAGER /usr/share/applications/pcmanfm.desktop"
+
+#
+# GUI configuration files - moved to /etc/xdg in NOOBS 3.0.0
+#
+LXSTART="$GUIBASE/lxsession/LXDE-pi/autostart"
+FM0CONF="$GUIBASE/pcmanfm/LXDE-pi/desktop-items-0.conf"
+FM1CONF="$GUIBASE/pcmanfm/LXDE-pi/desktop-items-1.conf"
+PANEL="$GUIBASE/lxpanel/LXDE-pi/panels/panel"
+OPENBOX="$GUIBASE/openbox/lxde-pi-rc.xml"
+PCMANFM="$GUIBASE/pcmanfm/LXDE-pi/pcmanfm.conf"
+
+if [ ! -r $PANEL ]
+then
+   echo >&2
+   echo "$PANEL does not exist or is not readable." >&2
+   echo >&2
+   echo "Exiting." >&2
+   echo >&2
+   exit 1
+fi
+
+cd $CONFDIR
+if [ $? -ne 0 ]
+then
+   echo >&2
+   echo "could not change to directory $CONFDIR .  Exiting." >&2
+   echo >&2
+   exit 1
+fi
+
+PROGNAME=`basename $0`
+USAGE="$PROGNAME"
+NARGS=`expr \`echo $USAGE | wc -w\` - 1`
+
+error_exit()
+{
+echo ""
+echo $1
+echo ""
+echo "$PROGNAME exiting."
+echo ""
+exit 1
+}
+
+errorcheck()
+{
+if [ $? -ne 0 ]
+then
+   error_exit "Error $1"
+fi
+}
+
+if [ $# -ne $NARGS ]
+then
+   error_exit "usage: $USAGE"
+fi
+###############################################################################
+
+if [ ! -d "$COURSEDIR" ]
+then
+   mkdir "$COURSEDIR"
+   errorcheck "creating directory $COURSEDIR"
+fi
+
+if [ ! -d "$INSTALL" ]
+then
+   mkdir "$INSTALL"
+   errorcheck "creating backup directory $INSTALL"
+fi
+###############################################################################
+
+sbackupfile()
+{
+filename="`basename $1`"
+if [ -r $INSTALL/${filename}_install ]
+then
+  sudo cp $INSTALL/${filename}_install $1
+  errorcheck "restoring $1"
+else
+  sudo cp $1 $INSTALL/${filename}_install
+  errorcheck "backing up $1"
+fi
+}
+###############################################################################
+
+echo
+echo "Setting up your Raspberry Pi graphical interface..."
+echo
+###############################################################################
+
+sudo which $APTITUDE > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+   sudo $APTGET update
+   echo "Downloading $APTITUDE package..."
+   sudo $APTGET -y install $APTITUDE
+   errorcheck "installing $APTITUDE"
+fi
+
+sudo which ntpdate > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+   sudo $APTITUDE update
+   echo "Downloading ntpdate package..."
+   sudo $APTITUDE -y install ntpdate
+   errorcheck "installing ntpdate"
+fi
+
+echo "Setting the system clock..."
+echo
+
+sudo $SETCLOCK
+errorcheck "running $SETCLOCK"
+echo
+
+###############################################################################
+
+#
+# GUI configuration
+#
+sbackupfile $LXSTART
+
+sudo ex $PANEL <<EOD
+g/pcmanfm/d
+wq
+EOD
+
+sudo sed -i '$a @lxterminal --geometry=80x24' $LXSTART
+errorcheck "adding terminal line to $LXSTART"
+sudo sed -i '$a @vm' $LXSTART
+errorcheck "adding vm line to $LXSTART"
+########################################################
+
+sbackupfile $FM0CONF
+
+sudo sed -i 's/show_trash=1/show_trash=0/g' $FM0CONF
+sudo sed -i 's/show_mounts=1/show_mounts=0/g' $FM0CONF
+
+# change wallpaper here - /usr/share/rpd-wallpaper/*
+########################################################
+
+if [ -r $FM1CONF ]
+then
+   sbackupfile $FM1CONF
+   sudo sed -i 's/show_trash=1/show_trash=0/g' $FM1CONF
+   sudo sed -i 's/show_mounts=1/show_mounts=0/g' $FM1CONF
+fi
+
+# change wallpaper here - /usr/share/rpd-wallpaper/*
+########################################################
+
+sbackupfile $PANEL
+
+sudo ex $PANEL <<EOD
+g/wolfram-language/.-1,.+1d
+g/pcmanfm/.-1,.+1d
+wq
+EOD
+########################################################
+
+sbackupfile $OPENBOX
+
+sudo ex $OPENBOX <<EOD
+%s/followMouse>no/followMouse>yes/
+%s/underMouse>no/underMouse>yes/
+%s/focusDelay>200/focusDelay>500/
+%s/raiseOnFocus>no/raiseOnFocus>yes/
+wq
+EOD
+###############################################################################
+
+sbackupfile $PCMANFM
+
+sudo ex $PCMANFM <<EOD
+%s/mount_on_startup=1/mount_on_startup=0/
+%s/mount_removable=1/mount_removable=0/
+%s/autorun=1/autorun=0/
+wq
+EOD
+###############################################################################
+
+for i in $FILEMANAGER
+do
+   if [ -r $i ]
+   then
+      sudo chmod 000 $i
+   fi
+done
+###############################################################################

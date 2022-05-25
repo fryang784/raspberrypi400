@@ -1,0 +1,10 @@
+Phys129 S22
+HW1 p2
+Richard Yang
+2022/03/30
+====================
+
+2. Computation Time. At 10**11 guesses per second, how many days would it take to check all the possibilities for the last configuration in the previous problem?
+
+	In the last configuration there are 94**8 = 6095689385410816 choices.
+	That means it will take 6095689385410816 / (10**11) = 60956.89 seconds, which is 60956.89 sec / (3600 sec / hour) / (24 hour / day) = 0.7055 days. 

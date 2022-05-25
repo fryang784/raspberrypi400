@@ -1,0 +1,40 @@
+Phys129L S22
+HW7 p3
+Richard Yang
+2023/05/11
+====================
+Problem Description:
+3. Temperature Stripchart. 
+Modify your program from the previous stripchart problem so that it displays
+the current temperature measured by the MCP9808
+====================
+
+	The program relevant to this problem is titled "p3_hw7.py" (hereby called "the program"). 
+
+Begin description of the program below:
+--------------------
+
+	The program uses all the structures and mechanisms used in the program stripchart.py in the python directory ($HOME/physrpi/python). 
+
+	The descrition of the overal structure and all the specific definitions have be done in p2_hw7.py . There are two obvious changes, one in the new function cel2far inside the Scope class, and another in some changes in the emitter function to incorporate temperature acquisition.
+
+	Before that, two new arguments are needed for the creation of the Scope class (replacing the angular frequency w from p2_hw7.py). These are:
+
+	---------------------------------------------------------------------------
+		adafruit_mcp9808 	| the adafruit library for hardware interaction
+		board.I2C() 		| the RPi class for I2C board interaction
+	---------------------------------------------------------------------------
+
+	These two attributes are added to the Scope object upon initialization. 
+
+	The cel2far function is very simple. It simply takes in a temperature in Celsius and returns its Fahrenheit value. 
+
+	The emitter generator is modified more substantially. It still retains the same infinite while loop, and it yields both the t and now a Tc in place of the y value, whenever it is called by the animation.FuncAnimation method. Tc is the temperature in celsius. Whenever the emitter generator is called, it opens port connection with the I2C by running the "with self.I2C() as i2c:" statement. Putting the connection clause here makes sure the port will always be properly disengaged when exiting the program. Once the connection is established, it access the MCP9808 chip, and obtains the temperature measured in Celsius. A conversion to Fahrenheit is done, and the temperature in both Celsius and Fahrenheit is printed to the standard output. 
+
+	There are some minor changes as well, such as the inclusion of x_label and y_label, and the automatic resizing of ylim based on the range of the current ydata. 
+
+	The rest of the script defines some variables, constructs the class Scope, and uses the animation.FuncAnimation method with predefined arguments. 
+--------------------
+End of program description.
+====================
+End of solution.

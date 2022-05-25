@@ -1,0 +1,45 @@
+Phys129L S22
+HW3 p5
+Richard Yang
+2022/04/15
+====================
+
+5. Finding Files. 
+Explain the function of the dfr alias that has been installed on your
+RPi. Make sure your explanation is complete
+
+	To view the alias of dfr, I typed in a terminal:
+
+		alias dfr
+
+	which returns:
+
+		alias dfr='find . -maxdepth 1 -mtime -1 -o -ctime -1'
+
+	This shows that the alias dfr is some specific configuration of the function called "find".
+
+	To see what kind of function is "find", use
+
+		type -a find
+
+	which returns:
+
+		find is /usr/bin/find
+
+	That is, the find function is binary function, which means it has a manual page. To access the manual, use
+
+		man find
+
+	which shows me entry (1), General Commands Manual, of the find function, which shows that find function searches for files in a directory hierarchy. 
+
+	The period ('.') that appears after find specifies the current directory as the starting-point.  
+
+	-maxdepth 1 means descend at most 1 level of directories below the starting-point. 
+
+	-mtime is an option under the TESTS section, and it concerns when a file's content was last modifed. -mtime -1 is true if a file's content was last modified less than 1 day ago. 
+
+	-o is the 'or' operator. Note that the second expression is not evaluated if the irst expression is true. 
+
+	-ctime is an option under the TESTS section, and it concerns when a file's status was last changed. This includes changes to its permission. -ctime -1 is true if a file's status was last changed less than 1 day ago. 
+
+	In total, this alias says: "find me all the files within 1 depth lower than the current directory, whose content was last modified less than 1 day ago or its status was last changed less than 1 ago." 

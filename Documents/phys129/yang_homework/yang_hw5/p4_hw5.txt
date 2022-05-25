@@ -1,0 +1,51 @@
+Phys129L S22
+HW5 p4
+Richard Yang
+2022/04/29
+====================
+Problem Description:
+4. 3-4-5 Right Triangle. 
+Examine the code in $HOME/physrpi/ps/rt345.eps on your RPi, and use the gv program to view the result.
+Using what you need from $HOME/physrpi/python/img.py, write a program that draws the same figure using raster graphics (by setting and displaying pixels). Make your image 512 pixels wide. In the text file for this problem, explain how you chose which pixels to set.
+Hint: Look at the bottom of the Handouts section of the course web page for links to the PostScript Language Tutorial and Cookbook and the PostScript Language Reference Manual.
+====================
+
+	The program relevant to this problem is titled "p4_hw5.py" (hereby called "the program")
+
+	Before explaining my python script, here are some notes on the rt345.eps script. 
+
+	Line 2 specifies a bounding box for the figure. For this script, it is 512 pixels in horizontal direction and 409 pixels in vertical direction.
+
+	Line 11-20 defines some operators specific to this script. For example, the literal object p1 is defined as the list [ 0 0 ], and literal object ap is defined as aload pop. This is essentially the same as defining functions in a python or shell script. 
+
+	Line 22, gsave, and line 30, grestore, seem to contain all the drawing procedures. 
+
+	Line 23: offset lw 2 div add dup translate
+		Here, offset = 48, lw = 20, so when the interpreter parses the first executable, div, it divides lw by 2, pushing the result 10 on top of the stack. Then, 48 and 10 are passed into the next executable, add, which executes and pushes the result 58 to the stack. The next executable dup then takes what is on the stack, aka 58, makes a copy and returns the result, aka two copies of 58, to the stack. The last executable finally translates the user space by (58, 58). This seems to define the origin of the coordinate, since commenting out this line seems to put the first point defined, aka p1 = [0 0], really at the leftmost corner. With this line, p1, although defined as [0 0], appeared a bit higher and towards the right of the leftmost corner. I think this is due to the effect of translate function. 
+	
+	Line 24-25 are pretty self-explanatory. 
+
+	Line 27-29 are self-explanatory as well. Note that the last word on line 29, stroke, seems to be necessary for the drawing to appear. I tried deleting the word stroke, and the script did successfully execute, but the resulting image is just a white page (with correct bounding box). 
+
+	Line 32 is self-explanatory. 
+		
+Begin description of the program below:
+--------------------
+
+	As described previously, the original .eps script starts drawing on (58,58). I thus choose this as my starting point for my triangle as well. In the program, I defined offset = np.array([58, 58]). All vertices of the triangle, aka p1, p2, and p3, are subsequently defined relative to offset. 
+
+	The overall structure of the program largely copies from Prof. Lipman's img.py script. Special attention has been made to the difference in convention of cartesian coordinates and numpy matrix notations (Please see the comments in the script for detailed description). 
+
+	The drawing of the two legs of the right triangle is straightforward. Since all bounds are defined rectilinearly, simple array slicing is all it needs. 
+
+	For drawing the hypotenuse, I used a mask. Essentially, I found an expression for the upper edge of the hypotenuse (called y_higher), and the lower edge of the hypotenuse (called y_lower). I found the regions of the cartesian plane below y_higher, and the region above y_lower, which I saved as two numpy arrays. I then find the intersection between the two by multiplying the two numpy array. This gives me a slanted strip with the correct linewidth extending throughout the cartesian plane. Similar method is done to chop off the parts where the strip is below the lowest horizontal edge or on the right side of the rightmost vertical edge of the two legs. 
+
+	The program automatically saves the resultant image (which essentially no whitespace / padding, which took me a while to fiddle with) as a .eps file, which is titled as "p4_hw5.eps", in the current directory the script is run. Please see the resultant .eps figure in this directory. 
+
+	The figure produced by this script has very clean edges for the two straight legs, but the hypotenuse's edges are a little bit rough. This is when we constructed the image we used single pixel resolution as our cartesion grid. It seems to me that this is a limitation due to the nature of raster graphics, since every pixel is defined typically by sweeping (i.e. for looping) through a rectilinear direction. Perhaps postscript, since it has the knowledge of the vector information, can draw the image more smartly (such as smoothing the edges that take into account of the geometry, and rendering perhaps).   
+
+--------------------
+End of program description.
+
+====================
+End of solution. 

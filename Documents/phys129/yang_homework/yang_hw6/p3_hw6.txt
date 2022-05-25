@@ -1,0 +1,33 @@
+Phys129L S22
+HW6 p3
+Richard Yang
+2022/05/05
+====================
+Problem Description:
+3. Surface Plot. 
+Write a program using the plot surface method from the Axes3D class to plot the function z(x, y) = sin(x) cos(y). Show 2.5 periods on the x and y axes.
+Turn in your plot as an EPS file along with your program.
+Hint: http://matplotlib.org/3.3.4/tutorials/toolkits/mplot3d.html
+====================
+
+	The program relevant to this problem is titled "p3_hw6.py" (hereby called the program). The output eps file of the program is titled "p3_hw6.eps"
+
+Begin description of the program below:
+--------------------
+
+	To plot 3D plots, need to import Axes3D class. Use the following line:
+
+		 from mpl_toolkits.mplot3d import Axes3D
+
+	Since the independent variables are in 2D, i.e. x and y, we need to define the x-coordinates and y-coordinates for each point in the region of 2D plane. This is done using np.meshgrid, which returns a 2D array of x-coordinates and a 2D array of the y-coordinates. 
+
+	Since np.sin() and np.cos() can take array-like inputs, sin(x) and cos(y) can be computed in parallel using these two numpy methods. The two outputs of the last operation, which are two 2D arrays, can be multiplied element-wise using np.multiply, which also executes in parallel. The result of the last operation is Z, which is 2D. 
+
+	Axis labels and a title are included in the figure as well for clarity. 
+
+	The output figure is saved in the current directory as an eps file called 'p3_hw6.eps' .
+
+--------------------
+End of program description.
+====================
+End of solution.

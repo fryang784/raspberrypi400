@@ -1,0 +1,18 @@
+Phys129 S22
+HW1 p3
+Richard Yang
+2022/03/31
+====================
+
+3. Password Security, part 2. Having determined  in the previous problem that his 8-character password is not sufficiently secure, a student increases its length to 12 characters, which he chooses at random from the 94 printable possibilities.
+
+(a) At a rate of 10**12 guesses per second, how many years would it take to try every possible password of this new length drawn from the 94-character set?
+
+	If the length of password is increased to 12 characters, then there are in total 94**12 = 475920314814253376475136 choices. 
+	This will take 475920314814253376475136 / (10**12 guess / sec * 3600 sec / hour * 24 hour / day * 365 day / year) = 15901 years! 
+	This is way longer than what it used to take for 8 characters, which is just 0.7055 days.  
+
+(b) For a passphrase using only lower and upper case letters and spaces, how many characters would it take to match the strength of the student's 12-character password?
+
+	If only lower and upper case letters and spaces are used, there are 26+26+1 = 53 possibilities for each slot. 
+	The question is then, to what power do we need to raise 53 to such that it equals 94**12. We see that 53**14 = 1379946262057143768386569, which is larger than 94**12. That is, the student needs to have a 14-character long passphrase to match the previous password. 

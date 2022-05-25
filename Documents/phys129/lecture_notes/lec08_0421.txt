@@ -1,0 +1,183 @@
+Phys129 S22 
+Lecture 8
+Richard Yang 
+2022/04/21
+====================
+
+Overflow:
+
+	At the end of last lecture we were talking about integer overflow. 
+
+	In general, it is a bad idea to use for loop for large iterations. But it turns out for prime factorization, for loop with integer numbers is pretty good way to do it, compared to numerical python. Np uses floating point number, which is inprecise. Python by default saves the number as an integer, which has arbitrary precision. In general, the rule is to always use numerical python, which is superfast because it is executed in parallel and is actually packaged in C. This is an exception that proves the rule. 
+
+	In numerical python, you can force it to save the data in an undefault data type. 
+
+	For example: 
+
+		a = np.arange(1, 100000, 2)
+
+		b = np.arange(1, 100000, 2, dtype='int64')
+
+	Now, 
+
+		a.sum()
+		b.sum()
+	
+	You will see a.sum() returns something terribly wrong! But b.sum() is fine. 	
+
+	The lesson here: neer use loop if numpy function can do the job.
+
+--------------------
+Arbitrary precision integers
+
+	Again, floating point arithmatic does not have the same precision as integer ones. 
+
+--------------------
+	How computers store the numbers:
+
+	Floating point numbers
+
+	There are many different ways to store a floating point number, i.e. many standards. 
+
+	The default standard is IEEE 754, the standard for storing floating point numbers. 
+
+	The standard for storing text file is ASCII. Since pretty much all computers use ASCII now, your text file on a windows will look the same on a Mac.
+
+	When storing a float, the computer stores it as a hexadecimal.
+
+	For example: 
+
+		a = 2.99e8
+
+		a.hex()
+
+	returns:
+
+		'0x1.1d260[...]p+28' 	
+
+	Note that the d there is 13 in decimal representation, i.e. since this is a dexadecimal, this is 13/16, to some power. Note that p+28 means 2**28, NOT 10**28
+
+	A mantissa means all the numbers before the exponentiation, i.e. 2.99292458. Then there is the exponent. 
+
+	This is important! One day when you were doing some numerical simulation of some ODE that is extremely sensitive to initial condition --> This might cause some big headache! So please remember this!
+
+	If you want to know the exact floating point precision your python can do, use 
+		a = 0.7
+		a.as_integer_ratio()
+
+	This will return a ratio of two integers that is up to the same precision as the your float, stored in python.
+
+	To see more information, which is machine specific (since all languages rely on your machine's data type), use:
+
+		import sys
+		sys.float_info
+
+	Can also use:
+
+		print(np.finfo(np.float))
+
+	Returns the Machine parameters. This will tell you the specifics of how numbers are stored. When working between two machines, it is a good thing to do this to check the two machines store numbers the same way. 
+
+	A real example: in QM, a Gaussian wavepacket will stay coherent as it translates through distance. But if you use numerical simulations, the wavepackage actually explodes, because it turns out the QM is extremely sensitive to initial conditions. 
+
+--------------------
+Representation error and roundoff error
+
+	Consider the example:
+
+		a = [0.1] * 10
+		sum(a) == 1.0
+
+	This will actually return False! This tells you it is never a good idea to check for equality between floating point numbers. Always use bigger than or equal, if you have to do anything computational. 	
+
+--------------------
+List comprehension
+
+	You can put a loop in a list:
+
+	For example:
+
+		[i + i for i in range(10)]
+
+	This is much faster than doing it in an append. Python will actually see you have an range, which means all elements in this list will have the same data type. By contrast, if you do it with append and a for loop, Python has to check the data type each time and ask for memory allocation in every iteration...
+
+--------------------
+Bytes and character strings
+
+	Can use chr(65), chr(0x41), 
+
+	Byte string:
+
+		a = b'Abytestring'
+	By default, when you create a string with just " ", python saves as an ASCII. This a istead is a byte string, which can save much more letters than ASCII.
+
+	Can convert this byte string to list:
+
+		list[a]
+
+	Will return a list of integers, i.e. byte string stores the character in integers. 
+
+	To go from integers back from number to sring it is a bit more difficult. Use:
+
+		b = [102, 111, 111]
+		''.join([chr(x) for x in b])
+
+	returns 'foo'
+
+--------------------
+Optimization
+
+	In the factorization homework this week, note that you don't need to go all the way up to the factor, only up to the sqrt of that factor. This will save you a lot of time, especially for a large number.
+
+	Here is a little more subtle example:
+
+	polynomial evaluation:
+
+		a + bx + cx**2 + dx**3 : 3 additions, 6 multiplications
+		a + x(b + x(c + x*d))  : 3 additions, 3 multiplications
+
+	These two ways return the same number, but the second way is much faster! Also in general multiplication is way slower than addition. 
+
+Inner loop and outer loop:
+
+	The most gain in optimization is in optimizing the inner loop. Remove all computations you have to do in an inner loop. 
+
+Use more memory!
+
+	Another strategy to just use more memory. Instead of changing the data in place, just create a new data that stores the result of your operation. This leads to a tradeoff between memory and speed. More efficiency with speed? Less efficient on memory. More efficiency with memory? Less efficient with speed
+
+Use look up tables:
+
+	Say that you are outputing a sine wave in a for loop. It is a BAD idea to compute it every time in a loop. Instead, pre-compute all you need and save it as a lookup table, and then just call it from your table in the loop, which is much faster!
+
+Avoid function calls:
+
+	This is not very necessary for our purposes. Function calls are very useful in compartmentalization, but they are also very expensive in terms of computation. If you have to work with something very fast in real time, avoid function calls. 
+
+Recursion:
+
+	Recursion is a function that calls itself.
+
+	For example, ls -R
+
+	This will call the function in the current directory, moves down to one directory and calls the function again, and then downs to another directory, until it reaches the bottom, and then it goes back to the very top, goes to another directory, and so on...
+
+	If you use recursion, nothing gets deallocated until everything is executed. Very inefficient with memory!
+
+--------------------
+Time
+
+	shell has a way to time:
+
+		time -p sleep 2
+
+	Inside python, there is a time module
+
+	There is a specific method called time.perf_counter(), i.e. performance counter. This is always relative to some arbitrary time (i.e. when you start up the machine). To time it, use 
+
+		a = time.perf_counter()
+
+		time.perf_counter() - a
+
+--------------------
+This lecture does not contain all the materials listed on the lecture note, because Lipman was rushing through it to catch up. To see all the material, reference the lecture note, or watch the recorded video. 	

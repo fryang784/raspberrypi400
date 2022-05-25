@@ -1,0 +1,71 @@
+Phys129L S22
+HW5 p2
+Richard Yang
+2022/04/26
+====================
+Problem Description:
+2. Doing your backups? 
+Turn in the output of ls -alF on the top level of your flash drive and also the top level directory of your most recent backup on the flash drive. The backup must have been created no earlier than one week before the due date for this problem set.
+====================
+
+	The flashdrive backup has just been run on the date this file is written. Below is the output of ls -alF on the top level of my flash drive:
+
+fyrpi400:/mnt$ ls -alF
+total 44
+drwxr-xr-x  6 pi   pi    4096 Apr 26 13:39 ./
+drwxr-xr-x 21 root root  4096 Aug 20  2020 ../
+-rw-r--r--  1 pi   pi    7579 Apr  9 03:32 flash_drive_procedures.txt
+drwx------  2 root root 16384 Apr  7 21:43 lost+found/
+drwxr-xr-x 23 pi   pi    4096 Apr  7 21:16 pi_07Apr22/
+drwxr-xr-x 25 pi   pi    4096 Apr 15 14:29 pi_16Apr22/
+drwxr-xr-x 25 pi   pi    4096 Apr 26 12:44 pi_26Apr22/
+
+
+Below is the output of ls -alF on the most recent backup in my flash drive, i.e. 'pi_26Apr22':
+
+fyrpi400:/mnt/pi_26Apr22$ ls -alF
+total 260
+drwxr-xr-x 25 pi pi  4096 Apr 26 12:44 ./
+drwxr-xr-x  6 pi pi  4096 Apr 26 13:39 ../
+-rw-r--r--  1 pi pi   279 Jan 18  2019 .129
+-rw-r--r--  1 pi pi   278 Jan 18  2019 .13
+-rw-------  1 pi pi   158 Apr 26 12:33 .Xauthority
+-rw-------  1 pi pi  8480 Apr 26 12:43 .bash_history
+-rw-r--r--  1 pi pi   220 Aug 20  2020 .bash_logout
+-rw-r--r--  1 pi pi   174 Apr 26 12:39 .bashrc
+drwxr-xr-x 11 pi pi  4096 Apr 14 10:54 .cache/
+drwx------ 17 pi pi  4096 Apr 26 11:44 .config/
+drwx------  3 pi pi  4096 Aug 20  2020 .gnupg/
+-rw-r--r--  1 pi pi   511 Jul 13  2016 .gv
+-rw-r--r--  1 pi pi   357 Jul 11  2018 .inet
+drwxr-xr-x  5 pi pi  4096 Apr  5 11:41 .ipython/
+-rw-------  1 pi pi   144 Apr 15 14:29 .lesshst
+drwxr-xr-x  3 pi pi  4096 Aug 20  2020 .local/
+drwxr-xr-x  3 pi pi  4096 Mar 29 20:17 .minecraft/
+drwx------  5 pi pi  4096 Apr 14 10:52 .mozilla/
+drwx------  3 pi pi  4096 Aug 20  2020 .pki/
+drwx------  3 pi pi  4096 Mar 29 20:15 .pp_backup/
+-rw-r--r--  1 pi pi   807 Aug 20  2020 .profile
+-rw-------  1 pi pi  1887 Apr 21 12:18 .python_history
+drwx------  4 pi pi  4096 Mar 31 20:56 .thumbnails/
+-rw-r--r--  1 pi pi   472 May  3  2016 .vimrc
+drwx------  3 pi pi  4096 Aug 20  2020 .vnc/
+-rw-r--r--  1 pi pi   107 Sep 27  2018 .xmodmap
+-rw-------  1 pi pi 90807 Apr 26 12:33 .xsession-errors
+drwxr-xr-x  2 pi pi  4096 Mar 31 00:14 Bookshelf/
+drwxr-xr-x  2 pi pi  4096 Mar 31 19:28 Desktop/
+drwxr-xr-x  3 pi pi  4096 Mar 30 21:20 Documents/
+drwxr-xr-x  2 pi pi  4096 Mar 31 00:14 Downloads/
+drwxr-xr-x  2 pi pi  4096 Aug 20  2020 Music/
+drwxr-xr-x  2 pi pi  4096 Aug 20  2020 Pictures/
+drwxr-xr-x  2 pi pi  4096 Aug 20  2020 Public/
+drwxr-xr-x  2 pi pi  4096 Aug 20  2020 Templates/
+drwxr-xr-x  2 pi pi  4096 Apr  7 21:57 USBport/
+drwxr-xr-x  2 pi pi  4096 Aug 20  2020 Videos/
+drwxr-xr-x  9 pi pi  4096 Apr 26 12:24 config_physrpi/
+drwxr-xr-x 10 pi pi  4096 Apr 26 12:33 physrpi/
+-rwxr--r--  1 pi pi   883 Apr 15 12:37 sys_info_page*
+-rw-r--r--  1 pi pi   835 Apr 15 12:38 sys_info_page.html
+
+====================
+End of solution. 

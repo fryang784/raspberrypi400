@@ -1,0 +1,55 @@
+%!PS
+
+/opg  % one-point grid
+{
+gsave
+   0 setlinewidth
+   0 1 792
+      {
+      dup 5 mod 0 eq {0.6 setgray}{0.7 setgray} ifelse
+      dup
+      0 moveto
+      0 792 rlineto stroke
+      0 exch moveto
+      612 0 rlineto stroke
+      } for
+grestore
+} def
+
+opg
+
+/lm 24 def
+
+/sizeshow  % (phrase) yp /font size sizeshow
+{
+gsave
+
+dup 5 1 roll
+
+selectfont
+lm exch
+moveto 
+show
+
+dup 8 string cvs show
+
+neg 1.5 mul round ypos add /ypos exch def
+
+grestore
+} def
+
+/ypos 700 def
+
+[65 40 18 14 12 10 8 7 6 5 4.5 4]
+{
+(Helvetica ) ypos /Helvetica 4 -1 roll sizeshow 
+} forall
+
+/ypos ypos 100 sub def
+
+[65 40 18 14 12 10 8 7 6 5 4.5 4]
+{
+(Helvetica-Bold ) ypos /Helvetica-Bold 4 -1 roll sizeshow 
+} forall
+
+showpage

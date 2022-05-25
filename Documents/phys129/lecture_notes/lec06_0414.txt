@@ -1,0 +1,196 @@
+Phys129 S22 
+Lecture 6 
+Richard Yang 
+2022/04/14
+====================
+
+	Last time, we left off with how to execute a python script.
+
+	If you delete the hashbang line, the shell environment will just try to run the command in shell, not python!
+
+	You will get graded on the comments in your script! Explain in comments what you are doing. Also, this is for your benefit if you come back to your code in like 6 months. 
+
+	--------------------
+	Variable types
+
+	Recall, 1 byte can hold integers from 0 to 255.
+
+	Most of the time when you working with integers you want to work with signed integers (i.e. with negatives). Most often you will use by default 32 bit signed integers, which is typically enough. Python actually does it differently. It allocates more memory if the number is larger. Pretty convenient.
+
+	For example:
+
+		a = 5
+
+	and now type:
+
+		dir(a)
+
+	you will see a bunch of outputs, e.g. '__abs__'. Most of these fuctions (more accurately methods) with '__' are functions attached to this variable class, and they are NOT meant for users to be used. 
+
+	Turns out, all variables in python belong to a class. Try
+
+		type(a)
+
+	returns
+
+		<class 'int'>
+
+	So variable 'a' is an instance of a class. Hence there are a bunch of methods attached to this class. 
+
+	--------------------
+	Convert between different types of variables:
+	
+	Consider:
+	
+		c = 'foo'
+		x = float(c)
+
+	returns: --> ValueError
+
+	This is called type-casting. As shown, we can't do this casting always. Python is pretty clever.
+
+	Notice there is a method called "__repr__". When we type "a", what is actually happening is:
+
+	a.__repr__()
+
+	i.e., a text representation of the variable.
+
+--------------------
+	Print statement
+
+	In python, you can have more command on how the text can be printed. This can be done using format string. 
+
+	For example:
+
+		print('%d' % a)
+
+	returns:
+		
+		5
+
+	'%d' is a format string. For example, '%d' is a decimal integer; '%f' means full float representation (6 decimal points by default); '%.3f' means show 3 digits after the decimal point, and '%' means print in exponential notation. 
+
+	Scientific notation:
+
+		b = 5.5e10
+
+	You can also have more than 1 variables to print: 
+
+		a = 5.0
+		b = 7
+		print('first: %f second: %e' % (a,b))	
+
+	Here, (a,b) is called a tuple. A tuple is essentially a read-only list. 
+
+	To see this:
+
+		c = (a,b)
+		type(c)
+
+	returns
+
+		<class 'tuple'>
+
+	Integer has higher resolution compared to floating point. The trade-off is th amount of memory available to an integer is limited, i.e. -10e32 and 10e32. 
+
+	Also can do something like this:
+
+		print('first thing ', end='')
+
+	Returns:
+
+		first thing>>>
+
+	By default, python print uses prints out a new line, (e.g. '\n')
+
+	You can also assemble a string as variable:
+
+		s = 'The number is %.3f' % 3.1415
+
+		s
+
+	returns:
+
+		'The number is 3.142'
+
+	Pretty convenient. 
+
+	If you want to know more about the print command, read the documentation in c :
+
+		man 3 printf
+
+	the number 3 means section 3 in the printf manual, which is the linux programmer's section.
+
+--------------------
+	To recap on methods of a class, you can always see all the methods built-in to a class by using
+
+		dir(complex)
+
+--------------------
+	Import
+
+	You can import the math library (or called module)
+
+		import math
+		dir(math)
+
+	returns a bunch of methods attached to the class 'math'.
+
+	You can configure python to always import certain modules. 
+
+	In shell:
+
+		env | grep PYTHON
+
+	You will see a file called startup3.py. In it you will see whenever you start up a python interactive session, you always automatically load numpy and matplotlib.pyplot. Note that this is only for an interactive session. That is, when you execute a python script this startup3.py does not apply. 
+
+	If you don't want to always use math.something, you could do 
+
+		from math import *
+
+	This way, you can simply type sin() instead of math.sin(). But this is a bad idea! There might be functions already defined, which means your code behavior will change. 
+
+	For instance, numpy also has a sin method. Numpy is fast because it executes its methodss in C.
+
+--------------------
+	help
+
+	To get manual page, use (for instance np.arange)
+
+		help(np.arange)
+
+	Or for example:
+
+		help(print)
+
+	In this, you will see that print by default will have end='\n', and will print file=sys.stdout. This means you can also change the output to some disk space in your machine!
+
+--------------------
+	On your shell, you can run
+	
+		env | g PYTHONPATH
+
+	This will tell you the path that python will search for for importing modules. 
+
+--------------------
+	The subproc_ls.py (in your physrpi/python directory) tells you how to run a shell command within a python environment. 
+
+--------------------
+	read up on command line method dfr (an alias), and dfind
+
+	In shell:
+
+		alias dfr
+	
+	returns what is the alias for dfr.
+
+		dfind "get*"
+
+	This will all the files that contains "get"
+
+--------------------
+	Back to python, a very important string method is split. By default, split will split a string using space as the delimiter. To view the manual page, remember to type 
+
+	help(str.split)
+
+	

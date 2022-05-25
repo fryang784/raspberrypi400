@@ -1,0 +1,33 @@
+Phys129L S22
+HW5 p1
+Richard Yang
+2022/04/26
+====================
+Problem Description:
+1. Wind Speed. 
+Examine the wind.dat file in $HOME/physrpi/coursefiles/ . The lines in this file contain 3 numbers each, the local time of day in hours, the average wind speed in knots, and the uncertainty in the average wind speed.
+Write a program to read the wind.dat file and plot average wind speed as a function of local time of day. Display the data points separately with error bars, and do not connect them with any lines or curves. Set the axis limits appropriately, label the axes, and include a title. Save a copy of your plot as encapsulated PostScript (.eps) and turn in this file. You can view .eps files with the gv program.
+Hint: Study the simple plot.py example function in $HOME/physrpi/python/ on
+your RPi
+====================
+
+	The program relevant to this problem is titled "p1_hw5.py" (hereby called "the program").
+
+	An .eps file as the output of the program is saved and titled "p1_hw5.eps" .
+
+Begin description of the program below:
+--------------------
+	The program is a modification on top of the simple_plot.py example function in $HOME/physrpi/python on my rpi. To run this program in command line, two arguments needs to be passed: the first is "p1_hw5.py", and the second is the data file where the plot will be made from. For ease of demonstration, I have copied the "wind.data" file from $HOME/physrpi/coursefiles to the current directory. Please enter the next line into your command line:
+
+		p1_hw5.py wind.dat
+
+	A simple plot based on wind.data will be shown on the screen, which is essentially the same behavior as "simple_plot.py". This means proper axis limits will be taken care of (see comments in the program for more explanations). Additionally, the program plots the data point on top of the error bar, as requested by the question. 
+
+	Next, the program prompts the user to input x-axis label and y-axis label, as well as a title. The program then displays the updated plot to reflect the changes. 
+
+	The program then prompts the user whether to save the plot as a eps file. If yes, it makes sure the user inputed file name does not exist in the current directory yet. 
+--------------------
+End of program description.
+
+====================
+End of solution. 

@@ -1,0 +1,66 @@
+%!PS
+%
+% p6_hw5_petal.ps - Draw flower with 4 petals
+%
+% 29Apr22  Richard Yang
+%
+
+%
+% draw petal scaled by xscale and yscale, 
+% rotated by angle.
+%
+/petal  % xscale yscale angle petal
+   {
+   /petalcol [ 0.8 0 0 ] def
+   /ep1 [ 0 0 ] def
+   /ep2 [ 0 100 ] def
+   /cp1 [ 55 65 ] def
+   /cp2 [ 10 95 ] def
+   /ap {aload pop} def
+   gsave
+   petalcol ap setrgbcolor
+   0 setlinewidth
+   rotate  % use angle from stack
+   scale   % use xscale and yscale from stack
+
+   ep1 ap moveto
+   cp1 ap cp2 ap ep2 ap curveto
+   cp2 ap exch neg exch
+   cp1 ap exch neg exch
+   ep1 ap curveto closepath fill
+   
+   grestore
+   } def
+   
+/stem % stem
+   {
+   /stemcol [ 0 0.8 0] def
+   /ep1 [ 0 0 ] def
+   /ep2 [ 0 -300] def
+   /ep3 [ 10 -300] def
+   /cp1 [ -30 -100] def
+   /cp2 [ -20 -200] def
+   /ap {aload pop} def
+   gsave
+   stemcol ap setrgbcolor
+   0 setlinewidth
+
+   ep1 ap moveto
+   cp1 ap cp2 ap ep2 ap curveto
+   ep3 ap lineto
+   cp2 ap cp1 ap ep1 ap curveto closepath fill
+
+   grestore
+   } def
+
+gsave
+   306 500 translate
+
+   stem
+   1.000 1.000 0.000 petal
+   1.000 1.000 90.000 petal
+   1.000 1.000 180.000 petal
+   1.000 1.000 270.000 petal
+grestore
+
+showpage

@@ -1,0 +1,40 @@
+Phys129L S22
+HW2 p5
+Richard Yang
+2022/04/07
+====================
+
+5. Shell Script. Provide a complete explanation of the function of this script:
+
+#!/ bin/sh
+#
+# proctemp - Return processor temperature
+#
+# 03 Jul17 Updated to use $() in addition to ` `
+# 22 Apr16 Everett Lipman
+#
+TDIR=/sys/class/thermal
+TBASE=thermal_zone
+for i in $TDIR/$TBASE*
+do
+	echo -n "`basename $i`: "
+	echo "scale =1; $(cat $i/temp )/1000.0" | bc
+done
+
+In a shell script, all lines that begin with a # is a comment. 
+
+The first line of the script, which is line 9 in this text file, is a hash-bang. It tells the shell to execute this script in a shell environment. (Note to TA: I will reference each line of this script using the line number of this text file. Sorry if this causes any inconvenience when you are reading this. You can try to configure vi/vim to show the number of lines.) 
+
+Line 11, 13, and 14 are all comments that provide some information of this scrit. 
+
+Line 16 defines a variable called TDIR with value "/sys/class/thermal".
+
+Line 17 defines a variable called TBASE with value "thermal_zone".
+
+Line 18-22 is a for loop. The astrik (*) is a pathname expansion. This line completes all files with a path sys/class/thermal/thermal_zone*, and let variable i be defined as each possible file name under one iteration. 
+
+Within the loop:
+
+	Line 20: print, removing newline character from output, of the basename of the pathname. That is, this command will just print the individual TBASE name that has been expanded, and drop the file path information that is above its hierarchy. In this case, there is only one directory called thermal_zone0. 
+
+	Line 21: first, read out the content stored in the file /sys/class/thermal/thermal_zone0/temp, which in this case is a number. The $() lets this part of the code to be executed first. Then, the statement "scale=1; someNumber/1000.0" is echoed (piped) into bc. bc is a bash calculator. "scale=1" tells bc to output the numeric result with 1 decimal precision. bc calculates, and then spits out the result on the display, which is its standard output. 

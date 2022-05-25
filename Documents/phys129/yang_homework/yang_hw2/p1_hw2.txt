@@ -1,0 +1,69 @@
+Phys129L S22
+HW2 p1
+Richard Yang
+2022/04/06
+====================
+
+1. cat and echo. Explain the difference between the cat and echo commands.
+	cat
+	type: binary command
+	description from manual : concatenate and print files. 
+	cat command reads the file, and displays its content. This is similar to the python command of "load", and "print", and "concatenate" if prompted. 
+	For example, if I type 
+		
+		cat foo1.txt
+
+	the content of foo1.txt will be displayed in the terminal. This can be a useful way to quickly view the content of a file without opening it with any program such as vi. 
+
+	if I type	
+	
+		cat foo1.txt foo2.txt > foo3.txt
+
+	the content of foo1.txt and of foo2.txt will be concatenated, and stored as the new content of foo3.txt. This means whatever content foo3.txt used to have will be replaced. 
+
+	The symbol ">" is a redirection marker. It means take the output of the previous command, redirect its standard output to what I define next (in this case, to "foo.txt"). Every command has standard input(stdin) and a standard output (stdout). By default, the stdout of cat is the display screen. ">" changes that to "foo3.txt". 
+
+	echo
+	type: built-in shell command
+	description: displays the text/string on the screen.
+	This is similar to a "print" statement in python. 
+
+	If I type
+
+		echo "hello world"
+
+	the text "hello world" will be displayed in my terminal (without quotation marks). 
+
+	There are more features one can use by passing an option before the text. For example, 
+
+		echo -e "hello \bworld"
+
+	displays the text "helloworld" on my terminal. Here, -e is an option that tells echo command to interpret the "\b" in the text as a specific command. "\b" means remove all space in the text. Other character commands include: "\n" start a new line; "\t" make a tab, etc. For example, 
+
+		echo -e "hello \nworld"
+	
+	displays
+	
+		hello
+		world
+
+	In contrast to "cat", echo does not load the content of the file. That is, if I type
+
+		echo foo1.txt	
+
+	it displays
+
+		foo1.txt
+
+	instead of the content stored in the file "foo1.txt". 
+
+	We can also use the redirection marker with echo. The default stdout of echo is, naturally, the display. By typing 
+
+		echo "this is a file." > foo.txt
+
+	we redirect the output of echo command to "foo.txt". That is, instead of printing the sentence in our display, it prints it in the file. Be careful of this command tho! This redirection marker writes the file "foo.txt" anew! That is, whatever content was in the text file originally would be erased!
+
+	To append the output to the original content of the file, use ">>". That is, 
+
+		echo "this is a file." >> foo.txt
+

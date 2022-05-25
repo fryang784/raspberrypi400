@@ -1,0 +1,43 @@
+Phys129 S22 
+Lecture 11
+Richard Yang 
+2022/05/03
+====================
+
+FIFOs and stsacks
+
+	FIFO: first in, first out (queue)
+		Note to self, the FIFO and the Stack desription might have been opposite!
+		 [1,2,3]  <- 4 	# deque([1,2,3]), append
+		 [1,2,3,4]
+	1 <- [1,2,3,4] 		# deque.popleft()
+		 [2,3,4]
+	
+	stack: last in, first out, opposite behavior
+
+
+--------------------
+PDF and postscript
+
+	a PDF is just a postscript file. The difference is, whereas postscript can have loops in it, a PDF file, when it is made, preprocesses all the loops and prints out the code for the content just is. 
+
+	in ps, gv bigletter.ps
+
+--------------------
+Networking
+
+	application email, http
+	transport 	TCP, UDP	
+	network 	IP (Wide Area Network, WAN)
+	link 		ethernet (Local Area Network, LAN)
+					allows you to packet* your data into 1 and 0
+	physical 	cable, radio wave, optical cable, etc
+					allows you to send 1 and 0. 	
+
+
+	packet: 
+		header
+			address of sender
+			address of dstiniation
+		payload
+			data

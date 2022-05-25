@@ -1,0 +1,156 @@
+Phys129 S22 
+Lecture 17
+Richard Yang 
+2022/05/24
+
+====================
+Numerical operations (i.e. Math)
+
+This lecture is about probabilities
+
+--------------------
+Binomial processes:
+
+	It is the probability distribution for k successes in N trials. The probability of success is p, the probability of failture is q = 1-p
+
+	The mean (average) outcome is mu = N*p
+	The standard deviation is sigma = sqrt(N*p*q)
+
+	The distribution approximates a Gaussian distribution with large N. This has to do with the central limit theorem.
+
+--------------------
+Normal distribution:
+
+	Recall the distribution function for normal distribution:
+
+	G(x) = (1/sigma*sqrt(2*pi)) * exp(-(x - mu)**2/(2*sigma**2))
+
+	Some probability benchmarks to remember:
+
+	-----------------------------------------
+		spread			| probability
+		+- 1*sigma		| 68% (~2/3)
+		+- 2*sigma		| 95%
+		+- 3*sigma		| 99.7%
+	-----------------------------------------
+
+--------------------
+Error function:
+
+	erf(x) = (2/sqrt(pi)) int_0^x exp(-t**2) dt
+	
+	erfc(x) = 1 - erf(x)
+
+	Note that the erf(x) assumes we start covering the Gaussian from the mean (i.e. one half of the total spread). Check the definitions to be sure.
+
+--------------------
+Binomial process example
+	
+	a dice game: win $5 if you throw a 6, lose $1 otherwise
+
+	N = 300
+	p = 1/6
+	q = 1 - 1/6 = 5/6
+
+	so:
+	mu = N*p = 50 sixes
+	sigma = sqrt(N*p*q) = 6.45
+	Expected number of wins: 50 +- 6.45 (can plug in dollars)
+
+	Be careful! The binomial distribution and the Gaussian distribution diverges at the tails! 
+	
+	Also, if the Gaussian distribution is not centered at the mean, there will be a bit of skew in the distribution. 
+
+	But the deviation at the tail is the most troubling problem!
+
+--------------------
+What is the actual probability of an biased die?
+
+	Suppose your cousin brough a die, where:
+
+	N = 100
+	w = 31
+
+	This seems way too high. Let's see what the probability of throwing a six is supposed to be. 
+
+	p_a = 31/100 = 0.31 (approximate)
+	sigma_a = sqrt(N*p_a*q_a) = 4.6
+	
+	So the probability is actually:
+	p_a = 0.31 +- 0.046
+
+--------------------
+Election polling:
+	
+	Call 100 random voters, candidate has 60% support. 
+	What is the margin of error?
+
+	ASSUME your polling is a random number, 
+	ASSUME your polling voters answer TRUTHFULLY
+
+	Then you get a binomial process.
+
+	*For instance, back in the days everyone has a landline. By random calling a landline number, this is a pretty good random sampling. But, over time people (especially young people) started having cell phones and not having landlines. This makes the sampling not random, biasing towards non-young people.
+
+	Margin of error:
+	sigma_a = sqrt(N*p_a*q_a) = sqrt(100*0.6*0.4) = 4.9	
+	
+	The margin of error from sampling is about 4.9%.
+
+	This is JUST FROM THE STATISTICS ALONE! (i.e. with all the assumptions). You want a way bigger N at least.
+
+--------------------
+How many fish in the lake?
+
+	Catch and tag 100 fish, then throw them back and wait.
+
+	Catch more, and observe the fraction f = N_ct / N_c that are tagged.
+
+	Idea: if you catch 100 fish and have 1 tagged, then you approximate that there are 1000 fish in the total population.
+
+	N_a = 100 / f
+
+	sigma_ct approx.eq sqrt(N_c * f * (1-f)).
+
+--------------------
+What is wrong with the plot?
+
+	By industry standard, the error bars in the plot represent 1 sigma. 
+
+	Recall that this is a 68% probability.
+
+	Now, a lot of times you see a plot with a fitted function that virtually goes through every data point, i.e. within the error bar. This is cause for alarm. We should expect only 68% of the data points to have the fitted function running through their error bars. In other words, roughly 1/3 of the data is NOT expected to be perfectly fitted. 
+
+	This typically means two things: One, you overestimated the error. Two, the data is fake. 
+
+--------------------
+Poisson Distribution
+	
+	if p << 1 (rare events)
+	q = 1-p approx.eq 1
+
+	This means:
+	mu is still N*p
+	sigma = sqrt(N*p*q) approaches sqrt(N*p) = sqrt(mu)
+
+	That is, the Poisson distribution only has 2 parameters: N and p. 
+
+	The Poisson distribution has the beautiful form:
+
+	P(mu, k) = (mu**k / k!) * exp(-mu)
+
+	Note that this formula is obviously normalized: for a discrete distribution, the total probability is 
+
+	sum_{k = 0, k = \infty} (mu**k / k!) * exp(-mu)
+
+	Note that sum_{k = 0, k = \infty} (mu**k / k!) = exp(mu) 
+
+	Therefore, the sum = exp(mu) * exp(-mu) = 1
+
+--------------------
+Poisson distribution is very useful in counting experiment
+
+	You can always use a finer time window to get a smaller probability.
+
+	That is, you can always get something of a Poisson distribution.
+

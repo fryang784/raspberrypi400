@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#
+# vm - Set video mode
+#
+# 04Apr22  Added code to detect connected output
+# 28Sep21  Everett Lipman
+#
+
+OUTPUT="HDMI-1"
+MODE="1920x1080"
+
+output=`xrandr | grep ' connected ' | awk '{print $1}' | head -1`
+
+xrandr --output $output --mode $MODE

@@ -1,0 +1,26 @@
+Phys129L S22
+HW4 p6
+Richard Yang
+2022/04/22
+====================
+6. Julian Day. Download and read the Julian day handout from the course web page.
+Write a program that 
+a. Prompts the user for a date in the form DDMmmYYYY. For example, 26Apr2016.
+b. Computes and prints the Julian day number corresponding to 0 h universal time on the selected date
+c. Computes and prints the day of the week on which the selected date falls.
+[...]
+
+====================
+	The program for this problem is written and titled "p6_hw4.py".
+
+	Using the program, I found that for my birthday, 04Feb1999:
+
+		The date 02/04/1999 (MM/DD/Year) is
+		JD: 2451213.50, Thursday
+	
+	The date today is 22Apr2022, which using the program:
+
+		The date 04/22/2022 (MM/DD/Year) is
+		JD: 2459691.50, Friday
+
+	This means I have been alive for 2459691.50 - 2451213.50 = 8478 days. Pretty neat way to do this. (I also learned this is how food processing industry tracks all their production dates and expiration dates, which makes sense...)

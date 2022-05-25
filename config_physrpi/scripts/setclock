@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# setclock - set Raspberry Pi clock using ntpdate
+#
+# 21Sep18  Improved error handling
+# 29Jun16  Added code to check uid
+# 21Jun16  Everett Lipman
+#
+
+COMMAND="/usr/sbin/ntpdate -uv"
+SERVER="ntp.ucsb.edu"
+# SERVER="time.nist.gov"
+
+if [ `id -u` -ne 0 ]
+then
+   echo >&2
+   echo "$0: this script must be run as root." >&2
+   echo >&2
+   exit 1
+fi
+
+$COMMAND $SERVER

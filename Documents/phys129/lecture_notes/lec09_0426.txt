@@ -1,0 +1,155 @@
+Phys129 S22 
+Lecture 9
+Richard Yang 
+2022/04/26
+====================
+	Finishing up with Python
+
+	A list is mutable, but an integer is immutable. The integer property might be confusing. When you assign a = 5, and then a = 6, what happens is that the object of a = 5 is destroyed, and a new object of a = 6 is created. 
+
+--------------------
+is
+
+	'is' shows if two variables point to the same object with the same allocation in memory. This is dangerous. 
+
+		a = [1,2,3,...]
+		b = a
+
+	Now, use 
+
+		a is b
+
+	returns True
+
+	This means a and b point to the same memory allocation. This also means, if we now do 
+
+		a.reverse()
+
+	Now,
+
+		print(a)
+		print(b)
+
+	Both will return [... 3,2,1]. I.e. both are reversed!
+
+	Instead, if you want to keep two variables independent, use copy
+
+		b = a.copy()
+
+	This creates a new memory slot for b. Now,
+
+		a.reverse()
+		print(a)
+		print(b)
+	
+	a will be reversed, but b will stay the same as how a used to be. 
+
+	Also, 
+
+		a is b
+
+	returns False. I.e. they point to two different memory allocations!
+
+
+--------------------
+Reading global variable inside a function
+
+use the global keyword
+		a = 567
+		def add(x,y):
+		   global a
+		   a = x + y
+		   return(a)
+
+	now, run 
+
+		print(a) 		# returns 567
+		add(5,6)
+		print(a) 		# returns 11
+
+--------------------
+Error handling
+
+	See error_handling.py
+
+--------------------
+Another way to convert a string representation of float to int:
+
+		a = int('5.5')
+
+	This will fail.
+
+	You could use a = int(float('5.5'))
+	Or, you could do:
+
+		a = int('5.5'.split('.')[0])
+
+--------------------
+list slicing
+
+--------------------
+None
+
+		a = None
+
+	This can be a good placeholder. For example,
+
+		month = [none, 'jan', 'feb', 'mar', ...]
+
+	Now, month[1] will be 'jan'. 
+
+--------------------
+Debugging with print()
+
+	reportloop.py
+	
+	prints out the index every certain interval of iteration. 
+
+	A test is very very fast. 
+
+--------------------
+shell command: ps
+
+	To see more options for ps, use man ps
+
+	ps auxw
+
+	htop
+
+--------------------
+To kill a process:
+
+	suppose you have a cat open in a terminal.
+
+	ps -uxw | grep cat
+
+	This will tell you the PID of the process that runs the terminal. 
+
+	Now, you can kill this process by calling on its PID:
+
+		kill PIDnumber
+
+	There are more options of kill. See man kill
+
+	The default is to terminate the process. Some programs will be protected by bash. But if you send in a different signal, this will change the behavior. kill -9 PIDnumber will always kill your process (unless it is in the middle of a system call, say if the process is writing into a disk). 
+
+		kill -STOP cat
+
+	Read man 7 signal for all the signals in kill. 
+
+	Also, in the middle of a program, can use 
+
+		Ctrl+\
+	
+	This will kill the program, a higher exigency than ctrl+z
+
+--------------------
+Symbolic links
+
+		ln -s ./fooDir/foo.txt foosymlink
+
+		cat foosymlink
+
+	Will return the content in that foo.txt
+
+--------------------

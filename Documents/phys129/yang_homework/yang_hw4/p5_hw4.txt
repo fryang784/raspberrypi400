@@ -1,0 +1,34 @@
+Phys129L S22
+HW4 p5
+Richard Yang
+2022/04/25
+====================
+Problem Description:
+5. Sine Function. 
+Write a program that:
+a. Prompts the user for a non-zero angle in degrees
+b. Continues to reprompt the user unless the input is acceptable
+c. Prompts the user for a number, <= 25, of terms to sum in a series
+d. Continues to reprompt the user unless the input is acceptable
+e. Calculates, using a function you have defined called sind(), the sine of 
+	the angle provided by the user. This function must sum a series to the
+	number of terms requested, and may not use any predefined Python math
+	functions.
+f. Calculates the sine of the angle using math.sin()
+g. Prints out a quantitative comparison between the two answers including the 
+	ratio and the absolute difference.
+====================
+
+	The program relevant to this problem is titled "p5_hw4.py" (hereby called "the program").
+
+Begin description of the program below:
+--------------------
+	Since the program does not allow the usage of any predefined math functions in modules like math, functions on factorial (called "fact(a)"), numerical approximation of sine (called "sinFunc2(n)"), and on angle handling and sine function evaluation (called "sind(x,n)"), are defined. A description of each of the three functions will be provided below. 
+
+	"fact(a)" returns the factorial of an non-negative integer. Note that the program assumes the input to be good. This is okay because fact(a) will only be used internally by "sinFunc2(n)" and "sind(x,n)", which guarantees robustness. 
+
+	"sinFunc2(n)" write out the Taylor expansion as a string, up to term n. The string will be processed by "sind(x,n)" function in its last step: eval.
+
+	"sind(x,n)" first converts the user inputed angle (in radian) to its equivalent value under sine function within the range [-pi/2, pi/2]. This drastically reduces the error of numerical approximation especially as the inputed angle deviates from 0. Since Taylor expansion is centered at x = 0, a x that is far enough from 0 will yield an insanely large error. The conversion of any arbitrary angle to a restricted domain [-pi/2, pi/2] truely makes the numerical approximation robust. 
+--------------------
+End of program desription.

@@ -1,0 +1,32 @@
+Phys129L S22
+HW6 p5
+Richard Yang
+2022/05/06
+====================
+Problem Description:
+5. Get Web Page with socket. 
+Write a Python program that prints out for the user when the Physics 129 web page announcements were last updated. Retrieve the course web page by opening a raw socket to port 80 on the server.
+Hints: See the client.py example.
+Before reading the data, you must send an http command through the socket. It will look similar to this: b’GET / HTTP/1.0\r\n\r\n’
+====================
+
+	The program relevant to this problem is titled "p5_hw6.py" (hereby called "the program")
+
+Begin description of the program below:
+-------------------
+
+	The program uses (mostly) functions defined in the 'client.py' and (only one part of) 'server.py' programs. 
+
+	The program first establishes a TCP connection by calling the 'open_connection' function. The ipnum and port variables are previously defined, which point to 'web.physics.ucsb.edu' and 80 (for http service), respectively. 
+	
+	The program then sends a request to the web server. The request, a bytestring, is previosly defined as: b'GET /~phys129/lipman/ HTTP/1.0\r\n\r\n' . This is a HTTP command (as specified by its ending, 'HTTP/1.0'). 'GET' gets the output from the directory '/~phys129/lipman/', which is where the phys129 web page lives. '\r\n\r\n' stands for a carriage return, a line feed, a carriage return, and a line feed. This is the sequence of keystrokes needed to mark the end of a command for HTTP (which follows Microsoft standard). 
+
+	After sending in the request for getting the web page, the program receives the data by calling the 'receive_data' function. This returns a bytestring. Now that we are done with interacting with the server, we shuts down the connection cleanly, and closes the socket. 
+
+	The output bytestring is converted to a string, and then split into a list with each row occupying an element. The program then extracts the row that contains the term 'Latest update' (it only identifies the first occurance, but since there is only one occurance this is okay). 
+
+	Now, since the time substring comes after the first occurance of '>', and then it is immediately on the left of '<', we truncate this string accordingly using split. Finally, the program replaces the characters '&nbsp;' with ' ', and prints out the information to standard output. 
+--------------------
+End of program description.
+====================
+End of solution.

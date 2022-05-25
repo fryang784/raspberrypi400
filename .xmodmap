@@ -1,0 +1,6 @@
+clear Lock
+keycode 66  = Control_L
+add control = Control_L
+clear mod1
+keycode 115 = Alt_L
+add mod1 = Alt_L

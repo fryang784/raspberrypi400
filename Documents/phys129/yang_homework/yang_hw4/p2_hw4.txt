@@ -1,0 +1,43 @@
+Phys129L S22
+HW4 p2
+Richard Yang
+2022/04/25
+====================
+Problem Description:
+2. Dictionaries and Databases. 
+Create a comma-separated values (csv) file having on each line a comma-separated list including a person's last name, first name, favorite color, favorite food, favorite field of physics, and most admired physicist. The file should contain at least three lines, each of which desribe a different person. Write a program that
+a. Reads in the csv file
+b. Stores the information from the csv file in a list of Python dictionaries,
+	one per line. You should choose the key names, for example 'last', 
+	'first', 'color', etc.
+c. Prints a list of keys for the user
+d. Prompts the user to choose a key
+e. Prints all names in alphabetical order with the requested values. For 
+	example, if the user selects the key 'color', the program should print 
+	something like:
+	Einstein, Albert: green
+	Fermi, Enrico: red
+	Michelson, Albert: blue
+Hint: create a list of output strings and sort it before printing.
+f. Allows the user to continue selecting keys for display until he/she is 
+	finished.
+====================
+
+	The csv file relevant to this problem is titled "p2_hw4.csv" (hereby called "the csv file")
+
+	The program relevant to this problem is titled "p2_hw4.py (hereby called "the program")
+
+Begin description of the program below:
+--------------------
+	The program uses a lot of functions to compartmentalize its structure, employs a robust error-handling, and contains a help page. 
+
+	The first section defines the set of all functions to be used in the rest of the program. In addition, a list of all possible commands is created and called "commandList". A command is defined as a possible operation that the user can input to the program. A dictionary of the definitions of all of the commands is also created and called "commandDict". A third list called "commandList_upper" stores all the commands in "commandList" but written in upper case letters. This is because all user inputed commanded will be turned into upper case for internal processing. 
+
+	In the next section, corresponding modules are loaded. As a check for the developing phase, the program first checks whether the numbers of elements in "commandDict" and "commandList" are equal. 
+
+	The csv file is then loaded by using the csv module. All attributes of the csv file are formatted and saved in a dictionary called "dataBase".  The list "list_of_keys" is a subset of "commandList_upper" and include all the commands that actually invoke a feature of the database, rather than a system command like "help" or "exit".  
+
+	The overall design of the program strives to make it self-sufficient in terms of user-interaction. That is, when the program is first ran the sentence '(Enter <H/h> to see help)' will be printed on the screen, from where the user will be able to know all possible commands. As a feature of its robustness, the user's commands (except inside help mode) is not case sensitive. Additionally, since all commands only have at most one word (at least one character), white space is striped from the user input to increase robustness and user friendliness. 
+
+--------------------
+End of program description.

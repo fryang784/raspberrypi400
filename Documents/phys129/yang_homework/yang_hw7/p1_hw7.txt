@@ -1,0 +1,99 @@
+Phys129L S22
+HW7 p1
+Richard Yang
+2022/05/12
+====================
+Problem Description:
+1. Project specification.
+Create a specification and work plan for your class project.
+This should be a text file including:
+  a. the approved version of your 1-paragraph description
+  b. a list of the hardware necessary for your project (in addition to a RPi)
+  c. a list of the pre-written software components you will need to use in 
+  	 addition to
+  	 the standard Linux/Python installation on your RPi
+  d. a detailed description of the software you will write for the project
+  e. a list of tasks necessary to carry out the project, including a target 
+	 completion date
+  	 for every task
+====================
+
+--------------------
+Project Description:
+
+	For my final project, I am thinking of designing a python-based computer game program. I want to start with re-creating the basic features from the 'snake' game, such that the game will be self-contained in the terminal. That is, the idea is to play 'snake' by simply running a python script in terminal. Once this basic structure is properly set-up and debugged, there are several additional features I am interested in implementing. These include minor aesthetics upgrades--such as better game display, 'real' physics mechanics incorporation (i.e. incorporate acceleration into the motion, make the snake's speed be dependent to its 'mass', i.e. how long the snake is, etc.), and other interesting incorporations, such as loading specifically constructed maps with unique terrains and obstacles (perhaps one can even play snake on some simple maps of UCSB campus), or constructing a 3D snake game.
+
+--------------------
+Hardwares:
+
+	No additional hardware required. 
+
+--------------------
+Pre-written software components:
+
+	Python Keyboard module
+
+	Python termios module
+
+	Python tty module
+
+	Python numpy module
+
+	Python pygame module
+
+--------------------
+Description of the software:
+	
+	Basic features:
+
+	An infinite loop for continuously taking in keyboard/tty input without pause for user input. 
+
+	A meshgrid representing the 2D region where the snake game takes place. 
+
+	A display mechanism that prints out the game content to the user (i.e. print a string representation to the standard output).
+
+	A movement mechanism for the snake head that checks the user input, and moves the head to its next position. If user input is empty, continue the head's movement in the same direction. If the user input is non-empty, change the head's movement to the specified direction.
+
+	A representation (possibly a 2D array) for the contour of the snake. This representation has to have memory of the contour from the previous iteration, and be able to compute its new contour, based on the movement of the snake head. Need to think about how to maintain any bend in the contour.
+
+	A random number mechanism that randomly assigns one pixel of the 2D region as the reward (i.e. food for the snake). 
+
+	A check for kill feature. This includes the following conditions: if the head is overlapping with the rest of the body contour, and if the head is outside of the range of the 2D region.
+
+	A growth mechanism for appending one unit pixel to the length of the snake when the head overlaps the reward (i.e. ead the food).
+
+	Additional feature:
+
+	A pause feature, with an user input interface. 
+
+	A feature for changing the wait time for each iteration. This will make the game go faster as the game lasts longer. 
+
+	A feature for loading in additional, pre-configured maps for the game. Each map can be represented as a csv file, and can be loaded upon user input. 
+
+	A better, more realistic graphic rending of the snake, perhaps incorporating "jiggling" movement.
+
+	3D snake feature: change all previous 2D representation into 3D (i.e. meshgrid, contours, movement, etc.), and constrains the game to be on a 2D rectilinear plane that is a slice of the total 3D volume. Incorporate a way to access the additional dimension, perhaps via user keyboard input, or by prompting the user to move to a specific pixel. One can imagine a snake "climbing the ladder" to access additional layers of the 2D map once certain conditions are satisfied (i.e. minimum length, or special "reward"). Some sense of graphical rendering for the transition to a new dimension will be needed.  
+
+--------------------
+Task timeline:
+
+					OBJECTIVE 					| Due date
+	--------------------------------------------------------
+	- Figure out how to take in user input  	| 14May22
+	  without pausing 							|
+												|
+	- Make snake able to move 					| 14May22
+												|
+	- Add reward, growth, and kill mechanism, 	| 21May22
+	  This completes the basic game features	|
+												|
+	- Add pause interface, and variable speed 	| 28May22
+												|
+	- Construct and make loadable more maps 	| 28May22
+												|
+	- Touch up graphics with better movement 	| 04Jun22
+												|
+	- Attempt 3D snake 							| 04Jun22 
+
+====================
+End of solution.

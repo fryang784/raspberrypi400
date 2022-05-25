@@ -1,0 +1,68 @@
+Phys129L S22
+HW5 p3
+Richard Yang
+2022/04/30
+====================
+Problem Description:
+3. diff. 
+At some point while you are modifying example code to solve one of the homework problems in this set, compare your new program to the original using diff. Turn in the output.
+Hint: diff is discussed in chapter 20 of Shotts.
+====================
+
+	For this problem, I used the petal.ps program in this current directory, and the petal.ps file in my $HOME/physrpi/ps/ . Here is the output I got:
+
+Begin output display below: 
+--------------------
+
+5d4
+< % 29Apr22  Richard Yang - add stem
+35,56d33
+< /stem % stem
+<    {
+<    /stemcol [ 0 0.8 0] def
+<    /ep1 [ 0 0 ] def
+<    /ep2 [ 0 -300] def
+<    /ep3 [ 10 -300] def
+<    /cp1 [ -30 -100] def
+<    /cp2 [ -20 -200] def
+<    /ap {aload pop} def
+<    gsave
+<    stemcol ap setrgbcolor
+<    0 setlinewidth
+< 
+<    ep1 ap moveto
+<    cp1 ap cp2 ap ep2 ap curveto
+<    ep3 ap lineto
+<    cp2 ap cp1 ap ep1 ap curveto closepath fill
+< 
+<    grestore
+<    } def
+< 
+< 
+60,62c37,38
+<    stem
+<    0.5 1 0 petal
+<    1 1 90.0 petal
+---
+>    1 1 0 petal
+>    1 1 90 petal
+65,66d40
+<    
+< 
+
+--------------------
+End output display
+
+	As described in the Shotts textbook, the output of a diff function is a series of changes that would be needed to convert the first file to the second file. I will pick a few lines to talk about what they mean.
+
+	
+	The first line of the output, 5d4, means "Delete line 5 of the first file, which would have appeard at position of line4 in the second flie". The diff output elaborates which line this is in the next line. The next line starts with a "<" sign, and continues with the string that is the line 5 of my first file. That is, it tells us to remove the sentence that says " % 29Apr22  Richard Yang - add stem", in order to convert the first file to be the second file. This is indeed line 5 of the first file. 
+
+	The next line, "35,56d33" means "delete the lines from position 35 to 56 in the first file, which would have appeared at position 33 in the second file". The next set of lines beginning with "<" again tells us which lines in the first file would be deleted for that to happen.  
+
+	The next group of commands begins with 60,62c37,38, which means "change lines at position 60 to 62 of your first file, to lines at position 37 and 38 of your second file". The next set of lines elaborate this by showing the exact content of the lines in the first file that would need to be removed (marked by a "<" sign at the front), and the exact content of the lines that would need to be appended (marked by a ">" sign at the front). 
+
+	The last few lines, beginning with 65,66d40, means to delete lines 65 and 66 in the first file, which would appear at position 40 in the second file. 
+
+====================
+End of solution. 

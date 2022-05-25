@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#
+# proctemp - Return processor temperature
+#
+# 03Jul17  Updated to use $() in addition to ``
+# 22Apr16  Everett Lipman
+#
+
+TDIR=/sys/class/thermal
+TBASE=thermal_zone
+
+for i in $TDIR/$TBASE*
+do
+   echo -n "`basename $i`: "
+   echo "scale=1; $(cat $i/temp)/1000.0" | bc
+done

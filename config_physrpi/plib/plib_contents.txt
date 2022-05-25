@@ -1,0 +1,52 @@
+Packages installed in plib directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+09May22  Everett Lipman
+
+NOTE: this file is not yet complete
+
+Use of pip3 to install packages is deprecated.  Instead,
+use
+
+   pip3 install -t . foopkg
+
+in plib directory.
+-------------------------------------------------------------------------------
+
+Package install command list:
+
+pip3 install -t . iminuit
+   remove numpy/ , numpy-1.22.3.dist-info/ from plib directory
+pip3 install -t . adafruit-circuitpython-max31865
+pip3 install -t . adafruit-circuitpython-ads1x15
+pip3 install -t . adafruit-circuitpython-mcp4725
+pip3 install -t . adafruit-circuitpython-mcp9808
+
+pip3 install -t . wiringpi (?)
+
+Copy:
+   Adafruit/
+   Adafruit_GPIO/
+   wpdir/
+-------------------------------------------------------------------------------
+
+import Adafruit.MCP9808 as MCP9808
+from Adafruit import ADS1x15
+   Adafruit_I2C.py
+   Adafruit_GPIO
+      FT232H.py
+      GPIO.py
+      I2C.py
+      MCP230xx.py
+      PCF8574.py
+      PWM.py
+      Platform.py
+      SPI.py
+   Adafruit_PureIO
+      smbus.py  (Provided by python3-smbus?)
+from Adafruit.MCP4725 import MCP4725 as mcp4725
+from wpdir import wiringpi
+import adafruit_max31865 as max3
+import board
+import digitalio
+import busio
+import adafruit_max31865 as max3

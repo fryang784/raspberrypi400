@@ -1,0 +1,40 @@
+Phys129L S22
+HW7 p4
+Richard Yang
+2022/05/12
+====================
+Problem Description:
+4. Acquire and Store Data. 
+Write a program that acquires one second of voltages from
+your solar cell at a rate of 920 samples per second.
+a. Turn in an EPS plot of the data.
+b. Have your program write the data to disk as a text file containing one 
+   voltage per line. Turn in this data file.
+Hints: See the fastadc.py example program.
+Wave your hand over the solar cell to make the data more interesting.
+====================
+
+	For this problem, there are three files in addition to this txt file that are relevant to the problem, as required by the problem. The python program is titled 'p4_hw7.py' (hereby called the program). The EPS plot of the data is titled 'p4_hw7.eps'. The text file containing the voltage data is titled 'p4_hw7_data_file.txt'. The choice for the name of the last file is unfortunate, as the data file cannot simply be named as 'p4_hw7.txt', for obvious reasons. I believe my naming of the data file is "appropriate", the only condition I can find regarding this matter in the Homework Guidelines (Page 1, section 3). 
+
+	Note: the previous paragraph was written on 11May22. On 12May22, the TA Tony Cooper sent out an email concerning the naming convention for p7_hw7 (I think he meant p6_hw7). Since nothing is mentioned for p4_hw7, I will leave the names as how they were as on 11May22.
+
+	During data acquisition, I waved my hand across the solar cell, as asked by the problem. This results in a dip in the voltage measured as shown in the plot 'p4_hw7.eps'. Notice that there seems to be no high frequency fluctuation in the voltages, but this is just because the drop in voltage due to waving of hand is too large compared to any such high frequency fluctuations. 
+
+Begin description of the program below:
+-------------------
+
+	The program is essentially a copy of Prof. Lipman's fastadc.py program in the Python directory. 
+
+	As required by the problem, I set the data acquisition time to be ACQTIME = 1.0 seconds, and sample per second to be SPS = 920. Since the maximum voltage measured in this experiment does not exceed 2048mV, I set the VGAIN = 2 (which corresponds to full-sale range of 2048mV). This is the smallest range that will still cover the full range of the data, which minimizes the quantization error. 
+
+	Since we want to save the data and its corresponding plot, I defined careful_write (copied from the 'careful_write.py' in the physrpi Python directory) and careful_savefig (modified based on careful_write function). 
+
+	The script then follows the same structure as the fastadc.py program. It defines a class called ads, and sets a bunch of attributes (such as gain, data_rate, mode, etc.). It prealloates the indata to save computation time. It then creates an object called 'vin' from AnalogIn. This vin object has the attribute voltage, which returns the voltage as digitized by the ADC and measured analogally by the photovoltaic cell. 
+
+	In the acquisition process, a while loop with just a pass statement makes sure that samples are collected at the specified rate. A plot of the data measured is drawn and shown.  
+
+	In the save section, the indata, which is a 1D numpy array containing all the voltages, is first turned into a list, and then has every element in the list converted from a float to a string using list comprehension. A new-line character is concatednated at the end of every string list element to make sure that the resultant data file has one voltage per line. 
+--------------------
+End of program description.
+====================
+End of solution.

@@ -1,0 +1,354 @@
+#!/bin/bash
+
+#
+# setup_physrpi - Set up Raspberry Pi for physics class
+#
+# 29Sep21  Added installation of vm script to fix video mode problem
+# 25Feb20  Added sudo to command that removes plib contents
+# 07Feb20  Added code to wipe out Python library directory before moving files
+# 28Jun19  Moved screen setup to external script screen_setup
+# 25Jun19  Reverted to apt-get for first download
+# 09Apr19  Added 60 second timeout to wget and eliminated retries
+# 18Feb19  Added physrpi/plib directory for Python packages
+# 23Jan19  Added option for other instructors to pull files from web
+# 18Jan19  Replaced .curpage with .13 and .129
+# 22Dec18  Commented out GUI modifications
+# 27Sep18  Added .xmodmap to DOTFILES
+# 19Sep18  Updated for course-independent configuration
+# 20Jun18  Updated for 129m18, multi-course configuration
+# 18Apr18  Added .inet to DOTFILES
+# 04Apr18  Changed from apt-get to aptitude
+# 02Apr18  Updated for 129s18
+# 20Feb18  Added code to create /etc/sudoers.d/021_sudopath
+# 16Jan18  Updated for 13b18, changed script name
+# 25Jul17  Added .curpage to DOTFILES
+# 29Jun17  Increased focusDelay to 500 ms
+# 23Jun17  Added openbox file to change mouse focus behavior
+#          Updated for 129m17
+# 18Apr17  Replaced >> with > in .bashrc modification code, added code
+#          to replace default browser
+# 13Apr17  Added code to replace installed .bashrc, change browser options
+# 01Apr17  Added code to create course directory before backup directory
+#          Fixed path name error in backupfile()
+# 31Mar17  Refined new backup procedure
+# 30Mar17  Improved PS1 disablement in $HOME/.bashrc
+#          Made some changes to the desktop
+#          Changed backup procedure
+# 29Mar17  Changed so custom configuration is run by /etc/bash.bashrc
+#          Removed file manager from toolbar
+#          Removed PS1 from $HOME/.bashrc
+# 28Mar17  Adapted from setup_150m16 by Everett Lipman
+#
+
+TRM="physrpi"
+CONFDIR="${HOME}/config_$TRM"
+COURSEDIR=${HOME}/physrpi
+CUSTOMFILE=".physrpirc"
+INSTALL=$COURSEDIR/osbackup
+BASHRC="/etc/bash.bashrc"
+SUDOFILE="/etc/sudoers.d/021_sudopath"
+SUDOTEXT='Defaults  env_keep += "PYTHONPATH"'
+CFILE=${HOME}/.bashrc
+BROWSER="${COURSEDIR}/scripts/rpi_browser"
+
+cd $CONFDIR
+if [ $? -ne 0 ]
+then
+   echo >&2
+   echo "could not change to directory $CONFDIR .  Exiting." >&2
+   echo >&2
+   exit 1
+fi
+
+GETPKG="getpackages_physrpi"
+SCREEN="screen_setup"
+UPDATE="update_physrpi"
+SETCLOCK="scripts/setclock"
+APTGET="apt-get"
+APTITUDE="aptitude"
+
+SCRIPTDIR="$COURSEDIR/scripts"
+BINDIR="$COURSEDIR/bin"
+PYDIR="$COURSEDIR/python"
+PLIBDIR="$COURSEDIR/plib"
+PSDIR="$COURSEDIR/ps"
+CFDIR="$COURSEDIR/coursefiles"
+TEXDIR="$COURSEDIR/tex"
+DOTFILES=".gv .vimrc .xmodmap .13 .129 .inet"
+VMSCRIPT="$SCRIPTDIR/vm"
+VMLINK="/usr/bin/vm"
+
+# INSTRUCTORS="mazin"
+WINSTRUCTORS="campagnari"
+INSTRUCTORS=""
+WINSTRUCTORS=""
+campagnari_URL="http://hep.ucsb.edu/people/claudio/ph129-w19/campagnari.tgz"
+
+PURGEFILES="$HOME/$UPDATE"
+
+TARFILE="../config_${TRM}.tar.gz"
+RMFILES="../config*${TRM}*.tar* ../Downloads/config*${TRM}*.tar*"
+
+PROGNAME=`basename $0`
+USAGE="$PROGNAME"
+NARGS=`expr \`echo $USAGE | wc -w\` - 1`
+
+error_exit()
+{
+echo ""
+echo $1
+echo ""
+echo "$PROGNAME exiting."
+echo ""
+exit 1
+}
+
+errorcheck()
+{
+if [ $? -ne 0 ]
+then
+   error_exit "Error $1"
+fi
+}
+
+if [ $# -ne $NARGS ]
+then
+   error_exit "usage: $USAGE"
+fi
+###############################################################################
+
+if [ ! -d "$COURSEDIR" ]
+then
+   mkdir "$COURSEDIR"
+   errorcheck "creating directory $COURSEDIR"
+fi
+
+if [ ! -d "$INSTALL" ]
+then
+   mkdir "$INSTALL"
+   errorcheck "creating backup directory $INSTALL"
+fi
+###############################################################################
+
+backupfile()
+{
+filename="`basename $1`"
+if [ -r $INSTALL/${filename}_install ]
+then
+  cp $INSTALL/${filename}_install $1
+  errorcheck "restoring $1"
+else
+  cp $1 $INSTALL/${filename}_install
+  errorcheck "backing up $1"
+fi
+}
+
+movetodir()  # movetodir DIRNAME
+{
+dirname=`basename "$1"`
+
+if [ ! -d "$1" ]
+then
+   mkdir "$1"
+   errorcheck "making directory $1"
+fi
+
+if [ -d "$dirname" ]
+then
+   echo
+   echo -n "Transferring files to $1... "
+   \cp -fpr $dirname `dirname "$1"`
+   errorcheck "copying files from $dirname to $1"
+   echo "done."
+   echo
+fi
+}
+###############################################################################
+
+echo
+echo "Setting up your Raspberry Pi for physics class..."
+echo
+###############################################################################
+
+sudo which $APTITUDE > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+   sudo $APTGET update
+   echo "Downloading $APTITUDE package..."
+   sudo $APTGET -y install $APTITUDE
+   errorcheck "installing $APTITUDE"
+fi
+
+sudo which ntpdate > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+   sudo $APTITUDE update
+   echo "Downloading ntpdate package..."
+   sudo $APTITUDE -y install ntpdate
+   errorcheck "installing ntpdate"
+fi
+
+echo "Setting the system clock..."
+echo
+
+sudo $SETCLOCK
+errorcheck "running $SETCLOCK"
+echo
+########################################################
+
+if [ -r $TARFILE ]
+then
+   mv $TARFILE .
+fi
+
+rm -f $RMFILES
+########################################################
+
+movetodir "$COURSEDIR"
+
+movetodir "$SCRIPTDIR"
+
+movetodir "$BINDIR"
+
+movetodir "$PYDIR"
+
+sudo \rm -rf "$PLIBDIR"
+movetodir "$PLIBDIR"
+
+movetodir "$PSDIR"
+
+movetodir "$CFDIR"
+
+movetodir "$TEXDIR"
+
+for i in $WINSTRUCTORS
+do
+  eval url=\$${i}_URL
+  itar="`basename $url`"
+  wget --tries=1 --timeout=60 $url
+  if [ $? -eq 0 ]
+  then
+     tar zxf "$itar"
+  else
+     echo >&2
+     echo "Warning: failed to retrieve $url." >&2
+     echo >&2
+  fi
+done
+
+for i in $INSTRUCTORS $WINSTRUCTORS
+do
+   movetodir $COURSEDIR/${i}
+done
+########################################################
+
+if [ -r $CUSTOMFILE ]
+then
+   mv $CUSTOMFILE $COURSEDIR
+   errorcheck "installing custom run command file"
+fi
+
+for i in $DOTFILES
+do
+   if [ -r $i ]
+   then
+      mv $i $HOME
+      errorcheck "installing $i"
+   fi
+done
+
+sudo su root -c "rm -f $SUDOFILE
+cat <<EOD >> $SUDOFILE
+$SUDOTEXT
+EOD
+chmod 0440 $SUDOFILE"
+
+grep $CUSTOMFILE $BASHRC > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+sudo su root -c "if [ -r ${BASHRC}_install ]
+then
+   cp ${BASHRC}_install $BASHRC;
+else
+   cp $BASHRC ${BASHRC}_install;
+fi
+
+cat <<EOD >> $BASHRC
+
+#*** Custom setup for physics class *******************************************
+. $COURSEDIR/$CUSTOMFILE
+
+EOD"
+errorcheck "adding lines to $BASHRC"
+else
+   echo
+   echo "Not altering $BASHRC"
+   echo
+fi
+########################################################
+
+#
+# Replace $HOME/.bashrc if it is unaltered
+#
+
+grep $TRM $CFILE > /dev/null 2>&1
+if [ $? -eq 0 ]
+then
+   echo
+   echo "Not altering $CFILE"
+   echo
+else
+   backupfile $CFILE
+   \rm -f $CFILE
+
+   cat <<EOD > $CFILE
+#
+# .bashrc - Custom setup for bash shell
+#
+# DO NOT REMOVE THE FOLLOWING LINE
+# 19Sep18  Created for $TRM by Everett Lipman
+#
+
+EOD
+   errorcheck "adding lines to $CFILE"
+fi
+###############################################################################
+
+sudo $SCRIPTDIR/$GETPKG
+###############################################################################
+
+if [ -r $BROWSER ]
+then
+sudo update-alternatives --install /usr/bin/x-www-browser x-www-browser \
+   $BROWSER 100
+else
+   echo
+   echo "Could not read browser file $BROWSER"
+   echo
+fi
+###############################################################################
+
+$SCRIPTDIR/$SCREEN
+###############################################################################
+
+if [ ! -L $VMLINK ]
+then
+   sudo ln -s $VMSCRIPT $VMLINK
+   errorcheck "creating link $VMLINK"
+else
+   echo
+   echo "$VMLINK already exists or is not a link"
+   echo
+fi
+###############################################################################
+
+\rm -f $PURGEFILES
+###############################################################################
+
+echo
+echo "Done."
+echo
+echo "Please run"
+echo
+echo ". $BASHRC"
+echo

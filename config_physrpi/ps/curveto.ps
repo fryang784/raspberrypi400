@@ -1,0 +1,72 @@
+%!PS
+%
+% curveto.ps - curveto operator demostration
+%
+% 05May16  Everett Lipman
+%
+
+/ep1 [ 150 150 ] def
+/ep2 [ 462 300 ] def
+/cp1 [ 250 650 ] def
+/cp2 [ 375 600 ] def
+
+/dotrad 4 def
+
+/clw 5 def
+/ccol [ 0 0 1 ] def
+
+/ap {aload pop} def
+
+/dot  % [ px py ] dot
+   {
+   ap
+   /py exch def
+   /px exch def
+   gsave
+      px py dotrad 0 360 arc closepath fill   
+   grestore
+   } def
+
+/plabel  % [ px py ] plabel
+   {
+   gsave
+   /Helvetica 12 selectfont
+   /lspace 10 def
+   /xstr 16 string def
+   /ystr 16 string def
+   dup
+   ap moveto
+   lspace dup rmoveto
+   ap 
+   ystr cvs exch
+   xstr cvs
+   show
+   (, ) show
+   show
+   grestore
+   } def
+
+/cline  % [ p1x p1y ] [ p2x p2y ] cline
+   {
+   gsave
+   ap moveto
+   ap lineto stroke
+   grestore
+   } def
+
+ep1 dup dot plabel
+ep2 dup dot plabel
+cp1 dup dot plabel
+cp2 dup dot plabel
+
+ep1 cp1 cline
+ep2 cp2 cline
+
+gsave
+   clw setlinewidth
+   ccol ap setrgbcolor
+   ep1 ap moveto
+   cp1 ap cp2 ap ep2 ap curveto stroke
+grestore
+
+showpage

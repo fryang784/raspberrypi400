@@ -1,0 +1,22 @@
+Phys129L S22
+HW6 p2
+Richard Yang
+2022/05/05
+====================
+Problem Description:
+2. Plot Trig Functions. Write a program that plots sin(θ) and cos(θ) as functions of θ in
+two different colors. Show 2.5 complete periods. Label your axes, and include a title
+for your plot. Turn in your plot as an EPS file along with your program.
+====================
+
+	The program relevant to this problem is titled "p2_hw6.py" (hereby called "the program"), and the output figure of this problem is an eps file titled "p2_hw6.eps"
+
+Begin description of the program below:
+--------------------
+
+	To display both the sine curve and the cosine curve, a numpy array for each is created based on a common numpy array of the x variable. Appropriate x-margin and y-margin for the plot is chosen based on the range of x and y. In the plotting section, each y variable is plotted using ax1.plot(x,y,marker). The axis labels and the title of the plot is set, and a legend is also added to the figure. The program lastly saves the figure as an eps file in the current directory if such a file does not yet exist. 
+
+--------------------
+End of program description.
+====================
+End of solution.

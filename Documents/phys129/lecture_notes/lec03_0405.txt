@@ -1,0 +1,72 @@
+Phys129 S22
+Lecture 3
+Richard Yang
+2022/04/05
+====================
+
+hand out items handed out. Check they contain 5 items.
+
+HW2 is posted. 
+
+Recorded lecture notes can be found on the phys129 website. 
+These lectures are recorded in spring 2020. They are purposefully long. Can pause and watch again. Can also be downloaded to local machine--they are just mp4 files. 
+
+
+ASCII chart
+
+xxd: "hexadecimal dump"
+
+0x20 = 32 in decimal. I.e., 2*16^1 + 0*16^0 = 32
+
+ASCII text is very old fashioned. It does not support accents, and include only english. 
+
+Some other encoding format is, i.e. UTF-8
+
+bash command: cat
+spits out the raw content of the txt file onto the screen. 
+If the file is not a txt file, it may screw up your terminal (i.e. do not use a binary file!)
+
+bash command: less
+a pager program. Displays the one-page worth of text onto your terminal. Can use <space> to jump to the next page, <Enter> to display the next line, and <b> to jump to previous page.
+
+Python
+Everything to be turned in must run in command prompt.
+
+Type "python3" in terminal will boot you to the command prompt.
+
+Type "ipython3". Interactive python shell. Has built-in help, saves what you do so you can look back. 
+
+Can also use an integrative development environment, and IDE.  
+For example, type "spyder3" 
+
+Command shell
+ls: stands for list.
+alias ls: see what the alising is for ls (this is configured by lipman)
+ls -a: list "all" the files
+ls -l: "long" listing. 
+Note: can combine the options, i.e. ls -al
+chmod filename: makes the file executable. 
+\ls: run the command ls without any aliasing
+type -a ls: tells the aliasing of the command "ls"
+
+Just about every command in the command prompt has a manual page. 
+Type "man ls" to see the manual page of "ls"
+
+type -a cd: cd is a shell builtin. This means it is not a separate shell command. It is already built in. For built-in shell command, type "help cd"
+
+type "help cd | less". This | is known as a pipe. It means execute "help cd" and throw the output into the program "less"
+In the man of a bin command, type "/ -F" to search for "-F"
+
+To recap: a binary file has a manual page; type man to look for the manual. a built-in command has instead a help page; type help to look for that help page. 
+
+type "hist" to look for the history of all the command. Type "!201" to run the command in line 201. ("!" is pronounced as "bang")
+
+All the command prompt history is stored in the .bash_history. To remove the history, rm the .bash_history file. The current history will be saved in the file when you shutdown the machine. So to remove current history, reboot the machine and remove the .bash_history file. 
+
+Alias: 
+alias foo = 'echo "Hi there!"'
+type "alias" to see all the alias. 
+type "unalias foo" to unalias foo. 
+
+This is a super helpful command. You can create alias for complicated command in the shell prompt. 
+All the aliases are stored in the .bashrc. rc stands for run command. The machine runs these files before doing anything when it is turned on. 

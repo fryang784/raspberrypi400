@@ -1,0 +1,25 @@
+Phys129L S22
+HW4 p4
+Richard Yang
+2022/04/25
+====================
+Problem Description:
+4. Fibonacci Numbers. 
+Write a program that takes as a command line argument a single number n, 
+then prints the first n Fibonacci numbers starting with 1, 1, 2, 3, . . .
+Make sure your output has no more than 75 characters per line. You may limit 
+the output to numbers with 75 or fewer digits. 
+Avoid recursion; it can be inefficient in Python.
+====================
+
+	The program relevant to this problem is titled "p4_hw4.py" (hereby called "the program").
+
+Begin description of the program below:
+--------------------
+	The program uses the idea of a boxcar to compute Fibonacci number up to a user specified term N, and prints out the Fibonacci series up to term N. 
+
+	First, robust error-handling is used to make sure the user inputed term N is a natural number. 
+
+	If N > 75, then only the terms up to and including the 75th term of the series will be printed, as specified by the problem. 
+--------------------
+End of program description.

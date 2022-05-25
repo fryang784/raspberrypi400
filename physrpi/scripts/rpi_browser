@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#
+# rpi_browser - Launch web browser
+#
+# 18May22  Updated to convey options
+# 02Feb22  Switched to firefox
+# 18Apr17  Everett Lipman
+
+# BPATH=/usr/bin/chromium-browser
+# OPTIONS="--incognito --media-cache-size=0 --disk-cache-size=0"
+
+BPATH=/usr/bin/firefox
+OPTIONS="-new-instance -private -purgecaches $*"
+
+exec $BPATH $OPTIONS 2>/dev/null &

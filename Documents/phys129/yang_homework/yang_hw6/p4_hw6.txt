@@ -1,0 +1,50 @@
+Phys129L S22
+HW6 p4
+Richard Yang
+2022/05/05
+====================
+Problem Description:
+4. wget, grep, and sed. 
+Write a shell script that uses the wget, grep, and sed commands to print out for the user when the Physics 129 web page announcements were last updated. Include a detailed description of how your sed command works.
+Big Hints: If you retrieve the top-level HTML file from the course web page and extract the “Latest update” line, you can pipe it through a sed command that looks like this:
+sed -e ’s/ˆ.*">//’ -e ’s/<.*$//’
+If you choose the appropriate options for wget (RTFM), your script should not need to save any files to disk.
+Here is the URL for the Physics 129 web page:
+http://web.physics.ucsb.edu/~phys129/lipman/
+====================
+
+	The program relevant to this problem is titled "p4_hw6.sh" (hereby called "the program").
+
+Begin description of the program below:
+--------------------
+
+	The program essentialy is just one line: 
+
+wget -qO - $URL | grep Latest | sed -e 's/^.*">//' -e 's/<.*$//' -e 's/&nbsp;/ /'
+
+	This line consists of three commands piped together: wget, grep, and sed. I will explain each command separately. 
+
+	wget -qO - $URL : wget downloads the file specified by a URL (here, $URL is previously defined as the phys129 webpage). The option -q means 'quiet', which silences any message printed out when running wget without such option. -O specifies the output file with the filename that comes after, instead of defaulting to .html file. As the man page of wget shows, -O option behaves analogously to shell redirection. Specifically, if '-' is used as the filename (without the quotation marks), then the output is redirected to standard output. This is what we wanted, since we can pipe this standard output to the next commands. 
+
+	grep Latest : grep extracts the row that contains the pattern 'Latest' (literal). There is only one line that contains this pattern, which is the line we want. 
+
+	sed -e ' ' : sed parses the input with pattern specified afterward. the option -e combines multple sed commands into one call. That is, this sed -e command is equivalent to three individual sed commands with their own corresponding pattern. 
+
+	As shown by the line, all patterns (also called a script) are substitution commands, i.e. beginning with the specification 's' (without quotation marks). The '/' sign is the deliminater, where the first term specifies the pattern to search for, and the second term specifies the pattern to replace with. I will explain each pattern script separately below. 
+
+	's/^.*">//' : Again, s specifies this is a substitution command. ^ is an anchor (a metacharacter) that means "from the beginning of the line". . (a metacharacter) means "match with any single character". * (a metacharacter) means "match the pattern multple times". Taken together, .* means "anything characters". "> is the literal pattern we wish to catch. Lastly, // (first slash delimiter, second slash is metachaacter) means "to delete", or "to replace with nothing". Taken together, this first command means "substitute any part of the string that begins with any character and end with "> with nothing"; in other words, discards the beginning of this sentence up to and including "> . 
+
+	's/<.*$//' : Again, s specifies this is a substitution command. $ is an anchor (a metacharacter) that means "to the end of the line". That is, this command says "substitute any part of the sentence that begins with a < to its end with nothing"; in other words, discards the part of the sentence that begins with a < to its end. 
+
+	's/&nbsp;/ /' Again, s specifies this is a substitution command. This command says, "substitute the (first) part of the sentence that matches with the literal pattern &nbsp; with a space character". 
+
+	If I run the program, the output is:
+
+		$ p4_hw6.sh
+		Latest update time: Tuesday, May 3
+		$ 
+
+--------------------
+End of program description.
+====================
+End of solution.

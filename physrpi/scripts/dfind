@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#
+# dfind - Find file under current directory
+#
+# 01Aug13  Written by Everett Lipman
+#
+
+PROGNAME=`basename $0`
+USAGE="$PROGNAME searchterm"
+NARGS=`expr \`echo $USAGE | wc -w\` - 1`
+
+error_exit()
+{
+echo ""
+echo $1
+echo ""
+echo "$PROGNAME exiting."
+echo ""
+exit 1
+}
+
+errorcheck()
+{
+if [ $? -ne 0 ]
+then
+   error_exit "Error $1"
+fi
+}
+
+if [ $# -ne $NARGS ]
+then
+   error_exit "usage: $USAGE"
+fi
+
+find . -iname "$1"

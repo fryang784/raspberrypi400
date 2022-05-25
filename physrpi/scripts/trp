@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#
+# trp - Run process and trace system calls
+#
+# 24May18  Removed old_mmap from excluded system calls
+# 09Sep13  Updated for Ubuntu 12.04.3
+# 07Nov09  Increased string length
+# 23Dec05  Written by Everett Lipman
+#
+
+if [ $# -eq 0 ]
+then
+   echo
+   echo "usage: trp command"
+   echo
+   exit 1
+fi
+
+exec strace -s 256 -f -x -etrace=!mmap2,munmap,sigaction -o tr $*

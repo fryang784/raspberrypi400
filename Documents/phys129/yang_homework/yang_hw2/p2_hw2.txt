@@ -1,0 +1,69 @@
+Phys129L S22
+HW2 p2
+Richard Yang
+2022/04/06
+====================
+
+2. Variables and Aliases. Explain the difference in bash between variable assignment and aliases.
+
+	A variable in an environment is a string that stores some data, (typically a string, but can also be a number, etc.). An alias is a string that is a shortcut to a command. 
+
+	To create a variable, simply type
+
+		foo=value
+	
+	To create a environment variable, type
+
+		export foo=value
+
+	To unset a local environment variable, type
+		
+		unset foo
+
+	To view the value stored in a variable, type 
+
+		echo $foo
+	
+	Note that one needs to type "$foo" to call on the variable foo. 
+
+	To use a variable, type
+
+		$foo
+
+	Again, one needs to add the "$" mark to tell bash we are calling a variable. This shows us that by typing the variable $foo, bash reads and expands its value in the shell. 
+
+	For an alias:
+
+	To create an alias, type
+
+		alias foo_alias="my command"
+
+	Note that there is no space between foo_alias, "=", and "my command"
+
+	To view all the aliases, type
+	
+		alias
+
+	To remove an alias, type
+	
+		unalias foo_alias
+
+	To use an alias, simply type
+
+		foo_alias
+
+	Note that unlike a variable, we just need to type the foo_alias itself, i.e. no "$" sign. 
+
+	As mentioned before, a variable stores data, whereas an alias is just a short hand for a command. That means a variable can be more powerful/versatile. For instance, we can store a number in a variable. 
+
+		export foo=2
+		
+	Now if we type
+		
+		echo $(($foo2+2))
+
+	returns
+
+		4
+
+	echo $(( <math operation>)) outputs the value of the math operation. This is not possible with an alias. The $() is a command substitution, which tells the shell command to evaluate what is inside and use its output as the argument of the command on the outside. 

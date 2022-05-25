@@ -1,0 +1,192 @@
+Phys129 S22
+Lecture 4 
+Richard Yang
+2022/04/07
+====================
+
+	Last lecture, we ended with aliasing
+
+	When you start your computer, your machine will automatically run at least two configuration files, i.e. bashrc
+
+		view .bashrc
+
+	view command is essentially vi, but it automatically sets it to read only. 
+
+	In /etc/ you will see all the system-wide files (i.e. apply to all users). You can also find 
+
+		view /etc/bash.bashrc
+
+	Be careful of sourcing and simply running a shell script. Typically when you run a shell script, a new shell is created, runs the script, and exits it. This is different than sourcing it, which runs the command in the current shell. Be aware of this different behavior. 
+
+--------------------
+	shell variable
+
+		var='hello there'
+
+	To reference this variable in the shell:
+	
+		echo $var
+
+	This draws out the content of the variable. 
+
+	An alias is different from a variable. An alias is a shortcut for a command to be executed. A variable stores some data. 
+
+--------------------
+	Environment variable
+
+		env
+
+	Tells you all the environment variables. 
+
+		export FOO="this is foo"
+
+	This promotes the variale FOO to an environment variable. That is, if you type env, you will see FOO in there now. 
+
+	Why does this matter? If you run a python shell:
+
+		>>> import os
+		>>> a = os.getenv('FOO')
+		>>> print(a)
+		this is foo
+
+	Note that we didn't create FOO variable in python--we created it in the shell environment. os.getenv accesses that variable in our shell environment.
+
+--------------------
+	Control characters
+
+		cat > foo
+
+	cat takes the standard input to the standard output. The default input is the keyboard, the default output is the display screen.  	
+
+	When we type cat > foo, the command line waits for your input from the keyboard, and directs your input to the file "foo". To end the session, hit control-D.
+
+	Ctrl-C is interrupt character. 
+
+	Ctrl-Z stops job process. Sends a stop signal to the program. type fg to go back. If you have two jobs running, type %2 to go to the second job.
+
+	>> appends to the original file.
+
+--------------------
+	Piping
+
+		cat foo | cat | cat
+
+	sends cat foo to cat, and then to cat. This will just print it on the screen. 
+
+		cat /etc/passwd | nl | sort
+
+	nl display the number of lines. sort sorts the file, by default using the 1st column. Can change to 2nd column with option. 
+
+--------------------
+	file
+
+		file foo
+		
+	returns
+		
+		foo: ASCII text
+
+	file commands tells you what kind of file this is. 
+
+--------------------
+	diff
+	
+		diff text.txt text2.txt
+
+	returns the difference between the two files. 
+
+	To find the lecture material, go to the http://web.physics.ucsb.edu/~phys129/lipman/handouts/index.html under section Lectures and Procedures. 
+
+--------------------
+	Next command:
+
+	grep
+
+	grep stands for global regular expression parser.
+	Most of the time, the pattern you want to search for is just your inputed text. 
+	
+		grep 8 /etc/passwd
+
+	Searches for the character "8" in /etc/passwd
+
+		cat /etc/passwd | grep Display
+
+	Pulls out the one line that contains "Display" in it. Super useful. 
+
+--------------------
+	wc
+
+	wc counts the number of lines, words, and characters in the file
+
+		ls /etc | wc
+	
+	returns
+	
+		230	230	2349
+
+	This tells you there are 230 lines, aka there are 230 programs in /etc
+
+--------------------
+	Wildcard
+
+	* stands for anything or nothing
+
+		ls tex*
+
+	* completes either nothing, or anything. 
+
+	?
+
+		ls .??*
+
+	shows all the files that begins with a dot, has two characters of anything, and anything or nothing else. 
+
+--------------------
+	Command substitution
+
+		cat $(ls *.txt)
+
+	Uses ls *.txt as the argument of cat. So this will be equivalent to 
+
+		" cat (all the files that end with .txt)"
+
+	This is different from piping! Try 
+
+		ls *.txt | cat
+
+	This will just output the names of the files that end with .txt
+
+--------------------
+	ps
+
+	tells you all the processes that are happening
+
+		ps
+
+	tells you the processes that are attached to your current terminal
+
+		ps -ux
+
+	tells you all the processes that are attached to your user. 
+
+		ps -aux
+
+	tells you all the processes that are attached to all the users (pi, root, etc). 
+
+		htop
+	
+	a program that shows you the processes currently running in your machine. 
+
+--------------------
+	Shell script
+
+	Create a file called "filename", and type
+
+		#!/bin/sh
+
+		clear
+		echo "Hi There!"
+
+	Make the file executable by typing chmod 744 filename, and then just run
+
+		.filename

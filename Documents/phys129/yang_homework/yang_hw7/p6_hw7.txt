@@ -1,0 +1,57 @@
+Phys129L S22
+HW7 p6
+Richard Yang
+2022/05/12
+====================
+Problem Description:
+6. Heat Transfer. 
+Modify the program you used in the previous two problems so that it acquires 
+and saves temperature data from your MCP9808 at a rate of 4 samples per second.
+a. Heat or cool the sensor and record data as it returns to room temperature. 
+   Turn in an EPS plot of the raw data.
+b. Manually select the portion of the data that contains only the heating or 
+   cooling curve, and fit the data to an exponential function. You can do this
+   manually by trial and error, or with the appropriate Python functions. 
+   Determine the time constant of the exponential, and turn in an EPS plot 
+   showing the selected data with the fitting function. Plot the data and fit 
+   in different colors.
+====================
+
+	There are 5 files in addition to this txt file that are relevant to this problem:
+
+	----------------------------------------------------------------------------
+	p6_hw7.py			|	The python program of this problem (hereby called 
+						|	"the program")
+	p6a_hw7.eps			|	EPS plot of raw data
+	p6a_hw7_time.txt 	|	txt file of raw data - time
+	p6a_hw7_temp.txt 	|	txt file of raw data - temperature
+	p6b_hw7.eps			|	EPS plot of fit and data
+	----------------------------------------------------------------------------
+
+	Among these, p6a_hw7.eps and p6b_hw7.eps are explicitly required by the problem, and are named following the suggestion from TA Tony's email. The two .txt file containing the raw data are not asked by the problem prompt, but it is always a good idea to save the data. Without the data textfile saved, the plot will not be reproducable anymore, and in general there is no way to access that information after the acquisition is finished. 
+
+	The two EPS plots are generated using the two raw data files. 
+
+	For this problem, I chose to measure the time constant (aka characteristic time) by observing the cooling of the MCP9808 chip. 
+
+	The time constant is computed as 53.933s. (based on the data saved in the two .txt files mentioned above). To reproduce this result, you can run 'temp_analysis.py' that is saved in this directory. 
+
+Begin description of the program below:
+-------------------
+	
+	The program is largely based on 'p3_hw7.py' . It first displays the stripchart feature with the temperature measured, which allows dynamic and graphical view of the data being aptured. The data for this experiment is obtained by touching the MCP9808 chip with the surface of a paper cup of hot coffee. After the temperature has risen to about 40 degree Celsius, the paper cup is removed from the chip, and the temperature measured starts to cool. After the temperature has largely returned back to the ambient temperature, the acquisition process is stopped. 
+
+	Some minor changes to the Scope class are made so as to save all time and temperature data. 	
+
+	After the stripchart window is closed, the rest of the script deals with data analysis. The program first saves the raw data. It then plots the raw data, and saves the figure (p6a_hw7.eps). 
+
+	Since we are interested in the cooling of the chip, only the portion of data after the maximum temperature is useful for the analysis of time constant. This is our data of interest. This is done by finding the index of the maximum temperature, and subsequently slice the array after such index. The time corresponding to the maximum temperature is reset to 0 (since it is arbitrary). 
+
+	The curve-fitting is done using scipy.optimize.curve_fit. The characteristic time is printed to the display after curve-fitting. To plot the fitted model, a new and more densely populated time variable is used (t_fit in the program, with 1000 intervals). 
+
+	Finally, the fitted model is plotted with the data of interest (with a different color). The plot is saved as 'p6b_hw7.eps'. 
+
+--------------------
+End of program description.
+====================
+End of solution.

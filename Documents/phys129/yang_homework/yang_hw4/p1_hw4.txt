@@ -1,0 +1,41 @@
+Phys129L S22
+HW4 p1
+Richard Yang
+2022/04/25
+====================
+Problem Description:
+1. Factoring Numbers. Write a problem that: 
+a. Prompts the user to enter an integer
+b. Attempts to convert the input string to an appropriate variable
+c. Continues to prompt the user until the conversion is successful
+d. Prints out the prime factors of the number
+Please note: the point of this problem is to write the fastest possible code,
+not to use sophisticated math. Use only elementary division and/or remainder 
+operations. 
+Do not use a number field sieve, nor any other non-trivial algorithm.
+The TA will test your program on these numbers, among others:
+9879878778787
+2348923847938743.
+====================
+
+	The program relevant to this problem is titled "p1_hw4.py" (hereby called "the program").
+
+Begin description of the program below:
+--------------------
+	The program first prompts the user to input an integer. Robust error-handling is implement to prevent the program from crashing. Specifically, the program makes sure the inputed value is a natural number bigger than 1 (for 1 does not have a prime factor).
+
+	In the next section, the program creates a list of all possible prime factor candidates, which is saved in a variable called "factorCandidates". The list first only goes up and include the square root of the inputed number. Within this list, all numbers not divisible to the inputed number is removed, therefore downsizing the list. This new downsized list is called "factors"
+
+	Next, all the complementary factors are identified and added to the "factors" list. A complemntary factor is defined in this way: suppose a*b = c and a is a factor that is listed in the "factors", then b is the complementary factor in this case. The trivial case where a factor is equal to 1 is ignored. 
+
+	In the next section, an emply list called "primeFactors" is created as a placeholder. A list of a few small prime numbers is created and called "primeList". This list goes up to the number 29, which is an arbitrary choice. 
+
+	Next, a for loop goes through all elements in the list "factors". For each iteration i, define a status called "prime" as False. A series of operations is executed within each iteration which will change the boolean value of "prime" status. 
+	First, if i is in the list "primeList", "prime" status becomes True, and i is appended in the "primeFactors" list. If i can be divided by any element in the "primeList" evenly, then i is not prime, and the loop continues to the next iteration. 
+
+	If neither of the last two conditions are satisfied, a numpy (hereby called "np") array called "subfactors" is defined. This np.array goes from 33 (the next odd number of the end of "primeList", up to and including the square root of i, in step size 2). The step size of 2 is because we do not need to consider any even numbers in this range. If i cannot be divided evenly by any element in the array "subfactors", then i's "prime" status becomes True, and i is appended to the list "primeFactors".
+
+	Lastly, the program prints out all the prime factors as stored in the list "primeFactors", of the user inputed integer. 
+
+--------------------
+End of program description.

@@ -1,0 +1,127 @@
+Phys129L S22
+HW3 p6
+Richard Yang
+2022/04/15
+====================
+
+6. Directory Checksum. 
+Write a complete line-by-line description of the function of the ds script that has been installed in $HOME/physrpi/scripts/ on your RPi.
+Hint: Read about shell functions in chapter 26 of Shotts, if in chapter 27, and while
+in chapter 29.
+
+Here is an annotated version of the script "ds". My annotation always begins with "##".
+
+Begin script below:
+--------------------
+
+#!/bin/sh
+
+#
+# ds - Compute checksum of all files under specified directory.
+#
+# 22Jan11  Added -noleaf to find command
+# 29Dec10  Modified to unset CDPATH before cd
+# 13Jan10  Modified to deal with spaces in directory names
+# 05Oct09  Modified to deal with spaces in filenames and specification of
+#             a directory on the command line 
+# 23Nov08  Written by Everett Lipman
+#
+
+SUMCOMMAND=md5sum 				## define global variable SUMCOMMAND
+
+PROGNAME=`basename $0` 	## This returns the name of this script, aka 'ds'.
+						## $0 is an internal shell variable, defined at shell 
+						## initialization. $0 is the full path of this script. 
+USAGE="$PROGNAME [directory]"	## define global variable USAGE
+NARGSa=0						## define global variable NARGSa
+NARGSb=1						## define global variable NARGSb
+
+error_exit()		## a function, skipped through when script is first executed.
+{					## beginning of commands of function error_exit
+echo ""
+echo $1				## $1 is an internal shell variable, which is equal to the 
+					## first command-line argument passed to the command or 
+					## shell script. 
+					## Similar behavior for $2-$9, above which use ${10} and 
+					## so on.  
+					## Here, $1 refers to the first argument passed through  
+					## function error_exit (not the first argument passed 
+					## through the command line when calling this script).
+echo ""
+echo "$PROGNAME exiting."
+echo ""
+exit 1 				## Exit the shell script with a status of 1
+}					## end of commands of function error_exit
+
+errorcheck()		## a function, skipped through when script is first executed.
+{					## beginning of commands of function errorcheck
+if [ $? -ne 0 ]		## condition true if the exit status of the last command is 
+					## not equal to 0. 
+					## $? is the exit status of the last task or command. 
+					## The bracket [ ] encloses the condition. 
+then				## If condition true, then execute the following command
+   error_exit "Error $1"	## call on function "error_exit" with first 
+   							## argument "Error $1"
+							## Here, $1 refers to the first argument passed 
+							## through when the function errorcheck is called,
+							## (not when using command line to call the script).
+fi							## end of if expression
+}							## end of function errorcheck
+
+if [ $# -ne $NARGSa -a $# -ne $NARGSb ]	## first action of the script
+					## If the number of argument supplied to this script is not
+					## equal to 0 nor equal to 1. 
+					## See earlier definition of NARGSa=0 and NARGSb=1
+then
+   error_exit "usage: $USAGE" 	## Call on the function error_exit with first 
+   								## argument "usage: $USAGE"
+								## See earlier definition of $USAGE
+fi								## end of if expression
+
+echo			## print a new line
+				## Now that we rejected usage of this script if more than 1 
+				## argument is passed through, we consider the case of either 
+				## 1 argument or no argument separately using if:
+
+if [ $# -eq 1 ]			## If number of argument is equal to 1
+then
+   unset CDPATH			## unsets the environment variable CDPATH
+   cd "$1" > /dev/null	## cd into the path specified by the first argument, and
+   						## throws away the standard output.
+   errorcheck "changing to specified directory."	
+   						## Call function errorcheck with first argument 
+						## "changing to specified directory."
+						## If the previous cd command was succesful, $?=0, and 
+						## the if condition in errorcheck fails, so errorcheck 
+						## does not do anything further. 
+						## If the cd command was unsuccessful, then $? is not 0,
+						## so errorcheck will pass through its if condition. 
+						## This will then  call function error_exit with first 
+						## argument "Error changing to specified directory."
+						## From function error_exit, a new line will be printed,
+						## and the statement "Error changing [...] directory" 
+						## will be printed. 
+fi						## end of if expression
+
+				## We are now either in the user specified directory or the 
+				## current directory (if no argument is evoked when calling ds)
+find . -noleaf -type f | sort | while read i  # deal with spaces in filenames
+				## -noleaf. Only file names are examined for non-directories, 
+				## this increases speed.
+				## -type f: regular files
+				## pipe the output to sort, which sorts it, and then pipe it to 
+				## while loop with read. This command reads the file line by 
+				## line, and assigns variable "i" to each line its reading. 
+do
+   cat "$i"		## evaluates the values of variable "i", as defined above.
+   				## the while loop terminates when read reaches the last line of
+				## the file.
+done | $SUMCOMMAND	## Perform a checksum on all the lines of text just outputed.
+					## See earlier definition for SUMCOMMAND
+
+echo			## Prints a new line
+
+--------------------
+End script. 
+
+

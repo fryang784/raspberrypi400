@@ -1,0 +1,106 @@
+Phys129L S22
+HW2 p3
+Richard Yang
+2022/04/07
+====================
+
+3. Mounting and Using a Disk. For each step in this procedure, either run the given command or decide what you have to do. If a command you run produces output, copy the output into the answer file.
+
+a. Run cat /proc/partitions | grep sd
+
+	returns nothing. This shows that there is no partition with pattern "sd". 
+
+b. Insert your flash drive into the Raspberry Pi, and run cat /proc/partitions | grep sd again. Your flash drive should now be available, probably as device /dev/sda. If it is assigned a different device name, substitute that for sda below.
+
+		cat /proc/partitions | grep sd
+
+	returns
+
+			8        0   15015936 sda
+			8        1   15014912 sda1
+
+	This shows that the partitions is available (but not necessarily mounted). 
+
+c. Run df | grep sd to see if your drive has been automatically mounted. If so, unmount it and verify that it is no longer mounted.
+
+		df | grep sd
+
+	returns nothing
+
+	This shows the partition is not mounted. 
+
+d. Create a directory under /home/pi to use as a mount point, and mount partition /dev/sda1 there.
+
+	A new directory has been created as /home/pi/USBPort. To mount the partition sda1 here, I typed
+	
+		sudo mount /dev/sda1 ~/USBport/
+
+	Check the status of the partition now with
+
+		df | grep sd
+
+	returns
+
+		/dev/sda1       14778812  490340  13521344   4% /home/pi/USBport	
+
+	which shows that partition sda1 has been mounted to /home/pi/USBport. 
+
+e. Run sudo mount | grep sd with no arguments.
+
+	returns
+
+		cgroup2 on /sys/fs/cgroup/unified type cgroup2 (rw,nosuid,nodev,noexec,relatime,nsdelegate)
+		gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+		/dev/sda1 on /home/pi/USBport type ext4 (rw,relatime)
+
+	This pulls out all lines of sudo mount that contains the pattern "sd" in it. 
+
+f. Run df | grep sd to confirm your disk is mounted.
+
+	Yes, already done in part d. It returns
+
+		/dev/sda1       14778812  490340  13521344   4% /home/pi/USBport	
+
+g. Create a small text file on the mounted drive.
+
+	To create a text file, I typed 
+
+		echo "This is a text file." > /home/pi/USBport/foo.txt
+
+h. Unmount the flash drive.
+
+	To unmount, type
+
+		cd 
+		sudo umount ~/USBport/
+
+i. Run sudo mount | grep sd with no arguments.
+
+	returns
+
+		cgroup2 on /sys/fs/cgroup/unified type cgroup2 (rw,nosuid,nodev,noexec,relatime,nsdelegate)
+		gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+
+	Notice that there are only two lines now this time. The last line in section e on the partition is no longer present. 
+
+j. Run df | grep sd to confirm your disk is unmounted.
+
+	returns nothing. This indeed shows the disk is unmounted. 
+
+k. Mount /dev/sda1 on /mnt.
+
+	To mount, type
+
+		sudo mount /dev/sda1 /mnt/
+
+l. Run cat /mnt/filename, where filename is the name of the file you created, to show you can read it off the disk
+
+	run
+
+		cat /mnt/foo.txt
+
+	returns
+
+		This is a text file. 
+
+	Just as expected!

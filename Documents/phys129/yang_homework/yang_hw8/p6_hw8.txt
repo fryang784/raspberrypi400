@@ -1,0 +1,113 @@
+Phys129L S22
+HW8 p6
+Richard Yang
+2022/05/20
+====================
+Problem Description:
+6. System Call Tracing. 
+Using the trp wrapper script for strace, run your program from the fork() and 
+execv() problem. Kill the program after the first time it forks and executes ls.
+In the output containing the system calls (a file called tr), locate and explain
+in your answer file what you see in the following:
+a. the line where the process forks, including 5 lines before and 5 lines after
+b. the line where the child process exits after running ls, including the 5 
+   preceding lines
+c. The line where the parent process receives the signal that kills it, 
+   including the 5 preceding lines.
+Hint: os.fork() is implemented using the clone() system call
+====================
+
+	The trp wrapper script is run by typing:
+
+$ cd yang_hw8
+$ trp p4_hw8.py
+
+	The h4_hw8.py program executes as before, printing out a series of numbers and announcing fork when it's about to do so. After the first fork, the program is killed by using Keyboard interupt. The result of running strace on the python script (with some unnecessary command trace ignored) is saved in a new file titled 'tr', which is saved in this current directory. 
+
+--------------------
+part (a):
+	
+	The line where the process forks, including the 5 lines before and 5 lines after, is listed below:
+
+28265 write(1, "9\n", 2)                = 2
+28265 clock_gettime64(CLOCK_MONOTONIC, {tv_sec=25004, tv_nsec=66308147}) = 0
+28265 _newselect(0, NULL, NULL, NULL, {tv_sec=0, tv_usec=500000}) = 0 (Timeout)
+28265 write(1, "10\n", 3)               = 3
+28265 write(1, "Fork()ing... \n", 14)   = 14
+28265 clone(child_stack=NULL, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb6fbb9e8) = 28282
+28282 set_robust_list(0xb6fbb9f0, 12)   = 0
+28265 clock_gettime64(CLOCK_MONOTONIC, {tv_sec=25004, tv_nsec=570151352}) = 0
+28265 _newselect(0, NULL, NULL, NULL, {tv_sec=0, tv_usec=500000} <unfinished ...>
+28282 write(1, "Executing \"ls -l\"... \n", 22) = 22
+28282 execve("/bin/ls", ["-l"], 0xbea32740 /* 49 vars */) = 0
+
+	In the lines above, the line that starts with 'clone' is the forking. 
+
+	Starting from the top of the lines. In the first line, the first string of numbers is the PID of the current process, i.e. 28265. The first argument of this command, '1', stands for the standard output, which is the terminal display screen. "9\n" is the string to be printed on the screen. The third argument is the number of bytes of the string. In this case, it is 2, one for the character '9', and one for the new line character '\n'. If the write command is successfully executed, its return value matches the number of bytes written. Hence we see the return value = 2 in this case.
+
+	The second line checks the time.
+
+	The third line also has something to do with the time.
+
+	The fourth line writes the string "10\n" onto the standard output. Note thatthe string written has 3 bytes since there are 3 characters. 
+
+	The fifth line write to standard output that Fork()ing will begin. 
+
+	The sixth line is the forking step. Note that the return value of clone, 28282, is the PID of the cloned daughter process. Note also the PID of this line is still the old 28265, as expected. The child_stack argument refers to the location of the stack to be inheritated by the child. The line child_stack=NULL shows that (I think) no new memory space is allocated for the child process. Within this clone command, a bunch of configurations are called, such as CLEARTID and SETTID, etc. This makes sure the thread ID for the child process is wiped clean and properly assigned to the child process. The child thread ID is traced with 0xb6fbb9e8.
+
+	The seventh line has the PID=28282, which shows that this is the daughter process. The first argument is struct of the parent process. This points the child process to the parent process.
+
+	The eighth line (parent) checks the time.
+
+	The nineth line (parent) monitors all the threads and checks if they are ready for some I/O operations. 
+
+	The tenth line (child) prints the message that the ls command is about to be run.
+
+	The eleventh line (child) executes the ls command by literally accessing the path "/bin/ls", with the argument "-l" passed in. The execve command (exec in general) replaces the current process with the command. After this operation is finished, the process is terminated. The 28282 process then executes the ls command. This can be seen in the later lines, where 28282 writes to the standard output a serious of file names in the current directory, which is what a ls command does. After the ls command is finished, process 28282 is exited with 0.  
+
+--------------------
+part (b)
+
+	The line where the child process exists, including the 5 preceding lines, is listed below:
+
+28282 write(1, "p3a_hw8_19May22_N100000.eps  p3a_hw8.py\t\t\ttr\n", 45) = 45
+28282 write(1, "p3a_hw8_19May22_N10000.eps   p3b_hw8_N198.eps\n", 46) = 46
+28282 close(1)                          = 0
+28282 close(2)                          = 0
+28282 exit_group(0)                     = ?
+28282 +++ exited with 0 +++
+
+	Note that all of these lines have the PID of the child process. The first and the second line writes the file names to the standard output. 
+
+	The third line closes the standard output 
+
+	The fourth line closes the standard error
+
+	The fifth line exits all threads under process 28282
+
+	The sixth line shows that process 28282 is exited with no errors.
+
+--------------------
+part (c)
+
+	The line where the parent process receives the signal that kills it, including the 5 preceding lines, is listed below:
+
+
+28265 _newselect(0, NULL, NULL, NULL, {tv_sec=0, tv_usec=500000}) = 0 (Timeout)
+28265 write(1, "14\n", 3)               = 3
+28265 clock_gettime64(CLOCK_MONOTONIC, {tv_sec=25006, tv_nsec=580276101}) = 0
+28265 _newselect(0, NULL, NULL, NULL, {tv_sec=0, tv_usec=500000}) = ? ERESTARTNOHAND (To be restarted if no handler)
+28265 --- SIGINT {si_signo=SIGINT, si_code=SI_KERNEL} ---
+
+	In the last line, SIGINT stands for signal interrupt. This is the line where the parent process receives the signal that kills it. 
+
+	In the first line, the process waits for the running process (0) to be ready and it times out. 
+
+	In the second line, the process writes to the standard output the string "14\n".
+
+	In the third line, the process checks the time (since the EPOCH).
+
+	In the fourth line, the process waits for the running process to be ready. Before timeout, it already receives the interrupt signal at this point. By default, the system will try to restart itself, if there is no handler, hence the return value ERESTRTNOHAND. In the next line, we see that this interrupt signal is handled by the kernel, so the program proceeds to be killed. 
+
+====================
+End of solution.

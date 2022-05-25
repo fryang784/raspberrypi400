@@ -1,0 +1,659 @@
+Phys129 S22 
+Lecture 7
+Richard Yang 
+2022/04/19
+====================
+	To search for files that contain "input" in a python file, in the directory, type:
+
+		grep input *.py
+
+	will return all lines of python files that contain the word "input" in them. 
+
+--------------------
+	Today, python constructs
+
+--------------------
+	range()
+
+	range object is a special object, it's called an iterable. 
+
+	range(a, b) first number a is first number you want to start, 
+	second number b is first number you DON'T want. 
+
+	An iterable object is not casted. It's different from a list (which is casted). That is, python designer has specifically designed range as an iterable such that it will run very fast. 
+
+--------------------
+	list
+
+	A list object is casted. It is very flexible in the sense that you can store any type of variable in this list. 
+
+	list is slower than range (an iterable) in a loop. 
+
+--------------------
+	tuple
+
+	A tuple is an immutable list. You cannot change it once you create it. Advantage: it is faster. When you create the tuple it creates allocated memory slot and does not have to bother with changes to its memory space. 
+
+--------------------
+	recall that with anything in python, you can see help by typing 
+
+		help(stuff)
+
+--------------------
+	numpy array
+
+		a = np.arange(10)
+
+	a means an array. numerical python array requires all of its elements to be the same type. This means they go faster than a list. 
+
+	Also, numerical python arange allows you fractional step-size. This is not possbile with range()
+
+--------------------
+	len()
+
+	len() is very flexible. It works for a list, for a string, almost anything. 
+
+--------------------
+	for loop
+
+	very flexible.
+
+--------------------
+	while loop
+
+	Note that basically all programming languages have for loop and while loop. Syntacs might be different, but the idea is the same.
+
+--------------------
+	input()
+
+	To check what type a variable is, use 
+		
+		type(a)
+ 
+	By default, input() always saves the input as a string. 
+
+	Need to convert str to an appropriate data type. 
+
+--------------------
+	Exit code in the shell
+
+	Everytime you execute a code in the shell, the exit status is saved in a variale called "?"
+
+	To view the value of "?", type
+
+		echo $?
+
+--------------------
+	subprocess
+
+	subprocess is a way to run shell command in python. 
+
+	see subproc_ls.py in python folder. 
+
+	There is another easier way to do this, by doing os
+
+	For example, to run ls shell command while in python, type
+
+		import os
+		os.system('ls')
+
+	Note: there is a genuine advantage of using python to run certain shell commands, especially if the operation involve anything math. 
+
+--------------------
+	python function
+
+	Very important concept. Take a complicated task, and break-down to compartmentalized task. 	
+
+	Organize your code into functions. 
+
+	To define a function:
+	
+		def add(a,b):
+			c = a+b
+			return(c)
+
+	Almost always you want to return a value, just to tell the user that the function has been run. You can do return 0 if code run, return 1 if code not run. 
+
+--------------------
+	docstring
+
+	In python, if you use three quotation marks """ you can create a multi-line string. 
+	
+		a = """This is a 
+							multi-line string"""
+
+	As a useful example: 
+
+		def addd(a,b):
+			"""addd(a,b): add two variables
+
+				a: a variable
+				b: another variable
+				returns: the sum of a and b
+			"""
+
+			return(a+b)
+
+	Now, if you run addd(2,2), it will execute just like before. But now:
+
+		help(addd)
+
+	returns the docstring! This is very helpful. You always want to give some docstring to a function. 
+
+	This is different from a # which completely ignore that entire line after the sign. This line will not be displayed if you run help()
+
+--------------------
+	file_readlines()
+
+	look up this file on python directory. 
+
+	This function will return a list of strings, each string is a line in the text file. 
+
+--------------------
+	careful_write()
+
+	Look up this file on python directory. 
+
+	This function also checks if the function already exists. 
+
+	open(filename, 'w') or open(filename, 'r')
+
+	-> these are two ways of opening a file. 
+
+	Look up all the options by typing:
+
+		help(open)
+
+--------------------
+	Another way to access the file, without opening the file and closeing it, is to use
+
+	with open('lines.txt', r) as infile:
+		lines = infille.readlines()
+		print(lines)
+
+	This code block automatically opens and closes a file for you. If you just need to access the file once, this is the recommended way. 
+
+--------------------
+	Conditionals
+	
+	if, for, and while statements are together called control flow. They are so essetial that they are in every programming language. 
+
+--------------------
+	logical and
+
+	Example:
+
+		1<2 and True
+
+	returns: True
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+--------------------
+	Two types of divisions in python
+
+	/ gives a float always. This is different from an integer division
+
+	For example: 
+
+		a = 4/2
+		type(a)
+	
+	returns <class float>
+
+	To integer division, use //, which just gives you the integer part of that result. 
+
+		5 // 2
+
+	returns 2
+
+	To get the remainder, use %
+
+	Very important! floating numbers do not have the same level of precision as an integer. If you have a super large integer stored as a, and then assign b = float(a), you will see that a is in fact NOT equal to b exactly. 
+
+	For integer, python will create enough memory to save the integer exactly. For a float python will only save up to certain precision. For factorization, always use integers!
+
+--------------------
+	split()
+
+	can split on anything you want: 
+
+		a = "something, something string"
+
+		a.split(',')
+
+--------------------
+	reverse()
+
+	Note that reverse method reverses IN PLACE
+	
+	That is, it changes the memory for that list. 
+
+--------------------
+	Allocating memory
+
+	Appending a list is very time inefficient. 
+
+	If doing something time sensitive, always allocate memory before the loop. You will lose samples if doing something like analog to digital conversion. 
+
+--------------------
+	Integer overflow
+
+	Be very careful to not give a number that is too large than the data type allocated in a np.arange()
+
+	If you get a crazy answer, i.e. a negative number after summing up all positive numbers, this is a good clue to check the type of element in your np.array (by typing dtype()), and see if the result is an integer overflow. 

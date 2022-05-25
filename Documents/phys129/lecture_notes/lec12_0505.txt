@@ -1,0 +1,173 @@
+Phys129 S22 
+Lecture 12
+Richard Yang 
+2022/05/05
+====================
+
+Last time: Network
+
+--------------------
+Networking
+
+        application email, http
+        transport       TCP, UDP        
+        network         IP (Wide Area Network, WAN)
+        link            ethernet (Local Area Network, LAN)
+                                        allows you to packet* your data into 1 and 0
+        physical        cable, radio wave, optical cable, etc
+                                        allows you to send 1 and 0.     
+
+
+        packet: 
+                header
+                        address of sender
+                        address of dstiniation
+                payload
+                        data (IP packet: header, payload)
+
+Notes:
+IP stands for Internet Protocal. When you want to reference your machine from somewhere not in your local ethernet, you will need to include network information as well (this will locate the ethernet your machine hooked up on). 
+
+The IP number, 192.168. , is always reserved for local uses. When you turn up your local machine and connect to your router, your machine asks for a local IP address with your router. This local IP address will always start with 192.168. for example. When your local machine wants to communicate with the wider internet, it is your router, who does have a uniquely callable IP address in the world, who communicates with the wider internet. Your machine does a 'translation' to translate the local IP address through the router to a globally unique IP address for wider internet access. 
+
+Port number:
+In your machine there are always a lot of programs running. Port number is used to direct data to a specific program, which is wired to a particular port. 
+In your bash, type:
+	view /etc/services
+
+tcp/udp
+	UDP: user datagram protocal.
+		If the packet gets there, it gets there; if it doesn't, it doesn't. There is much less overhead. Advantage: it is fast. Typically used for streaming or phone-calls, i.e. time sensitive, low quality data
+
+	TCP: 
+		aka handshake. Much more complicated, far more reliable. One side establishes a connection, after confirmed by the other side, sends in the size of the data, and then transmits the actual data. If the data is lost (i.e. size is incorrect), the other side catches it and asks for resend. Most of the networking nowadays are done via TCP
+
+Note: For port 0~224 something, only ROOT has access to it. 
+
+Domain name system
+	A system for translating domain name. In your bash, type:
+
+		host elo.physics.ucsb.edu
+	
+	This tells you the server for elo.physics.ucsb.edu (i.e. all Lipman's offices)
+
+		host -t ns ucsb.edu
+	
+	This tells you the name of the server for ucsb.edu . Turns out we also have a server for brown.edu . 
+
+		host -v www.google.com
+
+	A long list of information, including server informations and IP addresses...
+
+		host www.google.com
+	
+	Returns:
+	
+		www.google.com has address 142.250.217.132
+
+		The very first part of the address (i.e. a domain), i.e. "www", is the machine, everything else is the subdomains of the domain. 
+
+Typically when you use the internet, it is on the  application and transport level. 
+
+
+--------------------
+traceroute
+
+	In your bash, type:
+
+		traceroute elo.physics.ucsb.edu
+
+	This tells you how many hops it takes to transmit the data from your local machine to the destination (elo.physics.ucsb.edu). This is done by incrementing the lifetime of your packet (time-to-live, or ttl). 
+
+	TTL: all your packet typically has a ttl of 250 something. Each time a server transmits your packet, it decrements your TTL by 1. When your TTL reaches 0, the last server throws away your packet, and sends back to the origin a message "packet dropped". This will prevent conjestion in the internet
+
+	By sending packets with ttl from 1 up, traceroute is able to trace the route of how your packet is transmitted. 
+
+
+
+ping
+
+		ping elo.physics.ucsb.edu
+
+	Tells you the time of transmission?
+
+--------------------
+URLs
+
+	A URL: Uniform Resource Locator
+
+	http :// web.physics.ucsb.edu /~phys129/lipman/
+
+	http tells the port number
+
+	web.physics.ucsb.edu tells the IP address of the domain (equivalently can swap in 128.111.17.41) . In this domain name, the first part 'web' is the machine name. 
+
+	In this machine, everything afterward '/~phys129/lipman/' is the file name in that machine. 
+
+
+--------------------
+nc -Cv web.physics.ucsb.edu 80
+
+	C stands for carriage return. This is the format of the http (carriage return and end of line things, something something Microsoft standard)
+
+	Establishes a connection explicitly from your terminal. Can do something more here. 
+
+
+--------------------
+wget
+
+	Will basically do what a web browser does, but saves the file to your disk without rendering it to something pretty. 
+
+	Very efficient for automating stuff
+
+--------------------
+grep 25 /etc/services
+
+	tells you that port 25 is for mail server
+
+--------------------
+lo: inet 127.0.0.1 is always your local machine (lo means 'loop back interface')
+
+--------------------
+mudd to check mail from your terminal
+
+--------------------
+RFCs
+
+	request for comments
+
+	www.rfc-editor.org
+
+	go to this website, and then go to RFC 0821. This documents the mail protocal. (SMTP)
+
+--------------------
+How servers work
+
+	Previously we talked about how clients work. 
+
+	Now on servers
+
+	On a terminal:
+
+		nc -lv 1024 < etc/passwd
+
+	Now on another terminal:
+
+		nc -v 1024 (something?)
+
+	This is how you establish a server, by listening
+
+--------------------
+sudo lsof -i
+
+	tells you all the ports listening now
+
+--------------------
+smack-attack
+
+--------------------
+Doing this in python:
+
+	in python folder, view client.py and server.py
+
+	Look at the lecture notes and Lipman's online lecture for how to do this on python.

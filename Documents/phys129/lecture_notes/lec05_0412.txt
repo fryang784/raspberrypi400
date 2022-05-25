@@ -1,0 +1,114 @@
+Phys129 S22 
+Lecture 5 
+Richard Yang 
+2022/04/12
+====================
+
+	Lecture note is posted on the course webpage. 
+
+	To access, use the same password: 0x81L~S22
+
+	The lecture note (a pdf file) contains all the lectures, each with a new number as the section header. 
+
+	 In the command line, if you type a backslash line "\" and immediately hit enter, the shell command will understand you want to continue typing. 
+
+	Make sure to do the reading! The reading will cover a lot of the stuff you will need to do the homework. 
+
+--------------------
+
+	Last lecture, we ended with ps
+
+	ps tells you the processes going on in your machine. 
+
+	Everything in your linux machine is lumped into either a file or a process. 
+
+	If you type 
+	
+		ll partitions
+
+	You will see partitions has a 0 byte. But if you type
+
+		cat partitions
+
+	you clearly see there is clearly a lot more data. This is because partitions is a "virtual file". It's a "file", but is actually linked to a device in your machine. 
+
+	If you type 
+
+		tty
+
+	you will see the virtual file that your current terminal is stored in.
+
+	If you type
+
+		echo "Hi there!" > /dev/pts/2
+
+	(if you opened a second terminal,) the word will appear on the second terminal display!
+
+	--------------------
+	$$
+
+		echo $$
+
+	will tell you the process number of your terminal (?)
+
+	--------------------
+	Standard output and standard input
+
+	By default standard output and standard error are both wired to your display screen. To not see the error message, we can use 
+
+		grep hi * 2> dev/null
+
+	(grep hi * means search for hi in the files in the current directory). The redirection 2> means the standard error is redirected to /dev/null, i.e. the virtual garbage can. 
+
+--------------------
+	User id:
+
+		id -a
+
+	tells you all the user groups you belong to. 
+
+	Use
+	
+		view /etc/group
+
+	to view all the user groups (including audio, GPIO, I2C, etc.)
+
+--------------------
+	If you own a file, you can change the permission of the file. 
+
+	suppose you have the file text.txt
+
+		ll text.txt
+
+	by default, a file will give read and write permission to pi, and read permission to other users. (who are the other users?)
+
+	To change the mode of user, use 
+
+	chmod 700 text.txt
+
+	The number 700 is broken down into its 3 digits. Each digit stands for its binary format. For instance, 7 is 111, which turns on "read", "write", and "executable"
+
+--------------------
+	To find a program, i.e. proctemp
+
+		type -a proctemp
+
+	There are two variables $PATH and $CDPATH. They are executable path and search path. For security purposes, "." is always the last entry in $PATH. 	
+
+--------------------
+	In vim:
+
+		:r! ls
+
+	the "!" mark means vim will execute the command that comes next, and print out its output in the file. 
+
+	To search for a keyword in the manual page, use
+
+		man -k keyword
+
+	where you substitute the keyword with what you want to search for. 
+
+--------------------
+	Now on to Python
+
+	

@@ -1,0 +1,32 @@
+Phys129L S22
+HW6 p7
+Richard Yang
+2022/05/06
+====================
+Problem Description:
+7. Time Server. 
+Write a program that serves the current time in human-readable format when a 
+connection is established to TCP port 55555 on your RPi.
+Hints: See the server.py example.
+Start the Python interpreter, then type:
+import time
+help(time)
+Use the space bar and ’b’ to page forward and back.
+====================
+
+	The program relevant to this problem is titled "p7_hw6.py" (hereby called "the program").  
+
+Begin description of the program below:
+-------------------
+
+	The program uses the 'bind_port' function defined in 'server.py' program in the phys129 python directory. This function creates a socket and bind all available interfaces (lo, ether, etc.) to it. The function then makes the socket listen. 
+
+	The local time is obtained using the asctime method from the time module. As shown in the help page of the time module, if time.asctime() is called with nothing inside the parenthesis, the localtime() method is called and used as the input, and the time.asctime() method gives the local time in user readable format as a string. 
+
+	Next, the program converts the string to a bytestring by using the built-in method of bytes. This is the outdata to be transmitted whenever a connection is made. 
+
+	Just like in 'server.py' program, the program constructs a while loop that forever waits for an connection to be made. Once a connection is made, it sends out the outdata, and shuts down the connection cleanly, and waits for the next connection to be made. In this way, repeated nc connection to the specified port (i.e. port 55555) can be made.  
+--------------------
+End of program description.
+====================
+End of solution.

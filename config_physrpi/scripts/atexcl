@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rm -f acs-*.bib *.aux *.log *.bbl *.blg *.end *.tmp *.out *.dvi *.ps

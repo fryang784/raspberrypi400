@@ -1,0 +1,18 @@
+%!PS
+
+%
+% bigletter.ps - display large letter
+%
+% 03May16  Everett Lipman
+%
+
+/Times-Roman 1000 selectfont
+
+(c) dup stringwidth pop
+neg
+612 add
+2 div
+100 moveto
+
+show
+showpage

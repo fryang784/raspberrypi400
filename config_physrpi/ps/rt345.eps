@@ -1,0 +1,32 @@
+%!PS-Adobe-2.0 EPSF-3.0
+%%BoundingBox: 0 0 512 409
+
+%
+% rt345 - Draw 3-4-5 right triangle
+%
+% 04May18  Rescaled to make figure 512 points wide
+% 05May16  Everett Lipman
+%
+
+/p1 [ 0 0 ] def
+/p2 [ 400 0 ] def
+/p3 [ 400 300 ] def
+
+/ap {aload pop} def
+
+/offset 48 def
+
+/lw 20 def
+/col [ 0 0 1 ] def
+
+gsave
+   offset lw 2 div add dup translate
+   col ap setrgbcolor
+   lw setlinewidth
+
+   p1 ap moveto
+   p2 ap lineto
+   p3 ap lineto closepath stroke
+grestore
+
+showpage

@@ -1,0 +1,70 @@
+Phys129L S22
+HW8 p3
+Richard Yang
+2022/05/19
+====================
+Problem Description:
+3. Monte Carlo Circle. 
+(a) Write a program that generates a user-specified number N of uniformly 
+    distributed random points on a region of the x-y plane with x and y both 
+    running from 0–2. By counting the number of points lying within the circle 
+    of radius 1 centered at (x, y) = (1, 1), determine the area of this circle 
+    and the corresponding value of π.
+(b) Write a second program to plot the fractional error in the determined value 
+    of π as a function of N. Turn in the plot as an EPS file.
+====================
+
+	There are 17 files in addition to this .txt file that are relevant to this problem:
+	---------------------------------------------------------------------------
+	p3a_hw8.py					| The program for part (a)
+	p3a_hw8_19May22_N100.eps 	| The EPS plot of N=100 random dots in/outside 
+								| the circle
+	p3a_hw8_19May22_N200.eps	| N = 200
+	p3a_hw8_19May22_N500.eps 	| N = 500
+	p3a_hw8_19May22_N700.eps 	| N = 700
+	p3a_hw8_19May22_N1000.eps 	| N = 1000
+	p3a_hw8_19May22_N1500.eps	| N = 1500
+	p3a_hw8_19May22_N2000.eps 	| N = 2000
+	p3a_hw8_19May22_N3000.eps 	| N = 3000
+	p3a_hw8_19May22_N5000.eps 	| N = 5000
+	p3a_hw8_19May22_N10000.eps 	| N = 10000
+	p3a_hw8_19May22_N100000.eps | N = 100000
+	---------------------------------------------------------------------------
+	p3b_hw8.py 					| The program for part (b)
+	p3b_hw8_N90.eps				| The percent error dist. with Nmax = 90
+	p3b_hw8_N198.eps			| Nmax = 198
+	p3b_hw8_N39600.eps 			| Nmax = 39600
+	p3b_hw8_N999000.eps 		| Nmax = 999000
+	---------------------------------------------------------------------------
+
+	Not all of these EPS files will be necessary for grading purposes. In fact, any one of them within each part of the problem should be sufficient for the problem requirement. However, I have decided to explore the limit of Monte Carlo method as well as the efficiency of my code, and that is why there are multiples EPS files for each part of the problem. 
+
+	Since the problem asks us to write two separate scripts, I will explain them individually below. 
+
+-------------------
+Begin description of the programs below:
+
+--------------------
+'p3a_hw8.py'
+	
+	This program demonstrates the Monte Carlo method for approximating the value of pi with the help of visualization. The script is placed under an infinite loop so that the user can repeated enter new choices of N, the number of random points for the method. 
+
+	For each iteration, a plot showing the boundary of the circle is shown first. The circle is drawn by creating a plt.patch object. More concretely, plt.Circle is a sub-class of the patch class. After its creation, the circle patch is added to the axis object using axis.add_patch. The aspect ratio for the axis is chosen to be equal such that the proper circle is not displayed as distorted. 
+
+	The program then prompts an user input for N. Basic error handling is done in a way similar to 'p2_hw8.py'. An option for seeding the np.random is also in place for debugging. 
+
+	After the x and y coordinates for the N number of random points are generated, the program determines how many of these points lie within the circle. This is done using the self-defined num_in_circle function. The function evaluates if a particular point in the 2D plane lies within the circle by comparing its distance to the circle's center (1,1) with the circle's radius R. This operation is done in parallel for all N points, and it returns a Bool array of length N containing the result of the previous condition. The number of points (returned as Num) within the circle is counted by applying the array.sum() onto the Bool array (since a True is a logical 1 and a False is a logial 0, this can be thought of as simply adding all the 0's and 1's up). The index of these points (returned as Index)  within the array is also found using the array.nonzero() method. 
+
+	The Num is used to find the area of the circle, since the ratio between the area of the circle and the area of the square is equal to the probability of landing within the circle. The Index is used to get those points that belong within the circle so that they can be re-plotted for visualization. 
+
+	Finally, the result of the Monte Carlo approximation is drawn and the figure reshown, with the title showing the value of N and a text below the x-axis showing the Monte Carlo result. The figure is then carefully saved as an EPS file. 
+
+--------------------
+'p3b_hw8.py'
+
+	This script uses the same method of executing the Monte Carlo approximation, but does it in a pre-defined for-loop instead of asking for user input. It also neglects plotting for each approximation since it is not necessary. By selecting a range of N's, the script plots the trend of the Monte Carlo's percent error as a function of N. This plot is saved as an EPS file. As 'p3b_hw8_N198.eps' shows, the percent error sharply decreases from 0.25 to within 0.05 by around N = 200. 
+
+--------------------
+End of program description.
+====================
+End of solution.

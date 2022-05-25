@@ -1,0 +1,33 @@
+Phys129L S22
+HW6 p6
+Richard Yang
+2022/05/06
+====================
+Problem Description:
+6. Get Web Page with Requests. Write a Python program that prints out for the user
+when the Physics 129 web page announcements were last updated. Retrieve the course
+web page using requests, and process the result using either string methods or bs4.
+Hints:
+If you decide to use bs4, you may need to import re and use a BeautifulSoup method
+to search for text = re.compile(’RE’), where ’RE’ is a regular expression that
+matches the text you want to find.
+https://requests.readthedocs.io/en/master/
+https://www.crummy.com/software/BeautifulSoup/bs4/doc/#searching-the-tree
+====================
+
+	The program relevant to this problem is titled "p6_hw6.py" (hereby called "the program"). 
+
+Begin description of the program below:
+-------------------
+
+	The program here achieves exactly the same output as the program in p5_hw6.py and in p4_hw6.sh, but its format is drastically more compact and much more user friendly. This is all thanks to the python module, "requests". 
+
+	Line 36 of the program ('p6_hw6.py') replaces line 34-95 of 'p5_hw6.py'. By simply calling the requests.get(URL) method, a web page connection is automatically established, and a lot of the data, including the string of the page's html is already saved. 
+
+	By following the same string parsing procedure as in 'p5_hw6.py', the program prints out the latest update time. 
+
+	This is a great example of how Python is time-efficient on the user's end.
+--------------------
+End of program description.
+====================
+End of solution.

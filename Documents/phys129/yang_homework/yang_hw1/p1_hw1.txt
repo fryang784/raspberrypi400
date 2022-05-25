@@ -1,0 +1,27 @@
+Phys129 S22
+HW1 p1
+Richard Yang
+2022/03/31
+====================
+
+1. Password Security. For each of the following conditions, determine the number of possible password:
+a. 8 binary characters, each of which can be either 0 or 1
+
+	There are 8 slots. Each slot can either be "0" or "1". Therefore there are 2**8 = 256 choices. 
+
+b. 4 characters, each one having 16 possibilities
+
+	16**4 = 65536 choices. 
+
+c. 2 characters, 26 possibilities for each (a-z)
+
+	26**2 = 676 choices.
+
+d. 8 characters, each being one of a-z, A-Z, or 0-9
+
+	Each slot has 26+26+10 = 62 choices. 
+	There are 8 slots, so in total 62**8 = 218340105584896 choices. 
+
+e. 8 characters, each being one of 94 printable characters.
+
+	94**8 = 6095689385410816 choices. 

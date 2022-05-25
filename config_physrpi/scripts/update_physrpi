@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#
+# update_physrpi - Update Raspberry Pi configuration for physics class
+#
+# 19Sep18  Updated for course-independent configuration
+# 20Jun18  Updated for 129m18, multi-course configuration
+# 02Apr18  Updated for 129s18
+# 15Jan18  Adapted from update_129m17 by Everett Lipman
+#
+
+cd $HOME
+if [ $? -ne 0 ]
+then
+   echo >&2
+   echo "could not change to directory $HOME .  Exiting." >&2
+   echo >&2
+   exit 1
+fi
+
+TRM="physrpi"
+CONFDIR="config_$TRM"
+TARFILE="${CONFDIR}.tar.gz"
+URL="http://web.physics.ucsb.edu/~rpi/$TARFILE"
+
+RMFILES="config*${TRM}*.tar* ./Downloads/config*${TRM}*.tar*"
+SETUP="setup_physrpi"
+
+PROGNAME=`basename $0`
+USAGE="$PROGNAME"
+NARGS=`expr \`echo $USAGE | wc -w\` - 1`
+
+error_exit()
+{
+echo ""
+echo $1
+echo ""
+echo "$PROGNAME exiting."
+echo ""
+exit 1
+}
+
+errorcheck()
+{
+if [ $? -ne 0 ]
+then
+   error_exit "Error $1"
+fi
+}
+
+if [ $# -ne $NARGS ]
+then
+   error_exit "usage: $USAGE"
+fi
+###############################################################################
+
+echo
+echo "Updating up your Raspberry Pi for physics class..."
+echo
+###############################################################################
+
+#
+# clear old tar files
+#
+\rm -f $RMFILES
+errorcheck "clearing old tar files"
+
+wget $URL
+errorcheck "downloading configuration tar file"
+
+\rm -rf $CONFDIR
+
+tar zxf $TARFILE
+errorcheck "upacking configuration tar file $TARFILE"
+
+cd $CONFDIR
+errorcheck "changing to configuration directory $CONFDIR"
+###############################################################################
+
+exec ./$SETUP

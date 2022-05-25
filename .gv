@@ -1,0 +1,19 @@
+GV.scale:     0
+GV.scaleBase: 1
+GV.fallbackOrientation: Portrait
+GV.orientation:         Automatic
+GV.fallbackPageMedia:   Letter
+GV.pageMedia:           Automatic
+GV.gsQuiet:         False
+GV.swapLandscape:   False
+GV.autoResize:      True
+GV.antialias:       True
+GV.watchFile:       False
+GV.ignoreEOF:       True
+GV.respectDSC:      True
+GV.magMenu:      2,   2  \n\
+                 8,   8  \n\
+                32,   32 \n\
+               256,   256 \n\
+              1024,   1024
+GV.version:		gv 3.6.7.90

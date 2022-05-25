@@ -1,0 +1,19 @@
+Phys129L S22
+HW3 p2
+Richard Yang
+2022/04/13
+====================
+
+2. Processor Temperature. The temperature of the RPi CPU in millidegrees celsius can be found by reading this file: /sys/class/thermal/thermal zone0/temp.
+
+(a) The program is saved as "p2_hw3.py" in this directory.
+
+(b) While running p2_hw3.py, the temperature is about 35 (celsius, same below). 
+	In a separate terminal window, I opend a python shell and typed:
+
+		while True:
+			print('Hello world!')
+
+	Almost immediately, the temperature started to increase. Within 10 second it rose to 40. Within 30 seconds it rose to 45, after which it stablizes around 45.
+	
+	After I terminate the second loop, the temperature immediately started to drop. Within 15 seconds it came back down to about 35.

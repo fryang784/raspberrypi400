@@ -1,0 +1,101 @@
+Phys129 S22 
+Lecture 13
+Richard Yang 
+2022/05/10
+====================
+
+	This week we will learn about hardware interaction. 
+
+====================
+
+	A new python construct called generators. Use yield inside a generator (instead of return) 
+
+	Static function: If you know you will use a function multiple times, you want to make this function not de-allocated. 
+
+	To construct a generator: 
+
+		def gen():
+			yield 1
+			yield 2
+			yield 3
+
+	Now if you call a = gen(), you will see <generator object ...>
+
+	You can use the next method to call on the next yield statement. 
+
+		next(a)
+	
+		returns: 1
+
+		next(a)
+		
+		returns: 2
+
+		next(a)
+
+		returns: 3
+
+		next(a)
+
+		returns: error, stopIteration
+
+	The memory allocation of this generator is not de-allocated--it stays in the memory. When the next method is called, it moves to the next yield statement, and pauses. 
+====================
+stripchart.py
+
+--------------------
+class object
+
+	Object-orientated programming. 
+
+	Imperative programming.
+		the way we have been doing programming. This is how the machine is doing under the hood too.
+
+
+	In object-oriented programmning, instead of focusing on the code, you focus on your data. You create an object that contains the data, and all the methods associated with the data. This helps with keeping track of your work, especially in a large project. 
+
+	Class: a framework which contains the methods and the data. 
+
+	"object" is a very high-level thing, when you define a class with the parenthesis (object), it inherents the methods from the "object" class. This is no longer needed anymore in python 3. 
+
+		def __int__(self, ...)
+
+	This initiates attributes that will be inherited by everthing in this class. 
+
+	self: how you refer to the class inside the class. 
+
+	When you define methods inside the class, you always need to include the self as the first argument. When you invoke the methods elsewhere, you don't call the "self" argument. You simply do my_scope.method(variable), where my_scope if how you called on the class, method is a method defined inside the class, and variable is the variale needed by this method. 
+
+--------------------
+animation.FuncAnimation:
+
+	needs input of functions to generate values, and plot the values
+
+====================
+Hardware interface:
+
+--------------------
+parallel vs series buses 
+
+parallel data transfer is very fast, but the cable is very cumbersome. Nowaday, you rarely see parallel cables anymore (still in use inside your computer, because it is fast)
+
+series data transfer is by far more popular. The most popular example is USB (universal serial bus). It essentially is able to transmit data on one line. This is how ethernet works. Another example of which we will use is I2C. 
+
+--------------------
+I2C
+
+	I2C is most often used inside cars. For very simple sensor connections, you will see I2C being used. 
+
+4 wires:
+
+	power: 	power to your device
+	clock: 	establishes synchronization and pace for data transfer.*
+	data:  	1 or 0
+	ground:	ground reference
+
+	*clock is controlled in your devices by quartz crystals. The crystal inside your machine is always slightly different to the cystal in another person's machine. This is a very small uncertainty, which is fine to our normal perception, but to data transmission that happens at gigahertz, this will create a problem. 
+
+--------------------
+I2C wiring with your rpi:
+
+'3V3' means 3.3V. DO NOT CONFUSE THE 5V with 3V3 port! Your temperature sensor can hanle either 3.3V or 5V. If you feed the sensor with 5V, it will feed back a data that is 5V, which will destroy your rpi!

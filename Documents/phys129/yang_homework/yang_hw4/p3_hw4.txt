@@ -1,0 +1,79 @@
+Phys129L S22
+HW4 p3
+Richard Yang
+2022/04/21
+====================
+
+3. Execution Speed. Write a program that uses time.perf counter() to determine
+how long it takes each of the following to execute inside of a loop
+	a. Nothing (a pass statement)
+	b. Addition of two float variables
+	c. Multiplication of two float variables
+	d. Division of two float variables
+	e. Integer division of two variables
+	f. Appending one number to a list. Does this depend on the length of the list?
+	g. Call to a function that does nothing (contains only a pass statement)
+	h. Call to a function that adds two float variables
+Note: for each of these, you will need to run the operation many times in a row and divide the total elapsed time to get an accurate answer.
+
+====================
+There are four files (including this .txt file) related to p3. They are :
+	p3_hw4_generate.py 		- generate time measurements and saves in csv file
+	p3_hw4_data.csv 		- csv file containing all time measurements
+	p3_hw4_analysis.csv 	- computes the mean and standard deviations of each 
+							- type of time measurement. 
+	p3_hw4.txt   			- text file that explains the problem (this file). 
+
+	Each time p3_hw4_generate.py ('generate'), is executed, it appends the measured times in p3_hw4_data.csv ('csv'). I ran the 'generate' program in terminal for 148 times (an arbitrary number, just want something larger than 100 ish). Then, I ran the script p3_hw4_analysis.py ('analysis'), which outputs the following:   
+
+Begin output below:
+--------------------
+Prelim-check: time taken for updating time variable
+    mean = 1.020e-06, std = 2.933e-07
+
+Objective a: pass
+    mean = 1.237e-07, std = 3.622e-08
+
+Objective b: add two floats
+    mean = 2.403e-07, std = 6.679e-08
+
+Objective c: multiply two floats
+    mean = 2.316e-07, std = 6.418e-08
+
+Objective d: divide two floats
+    mean = 2.321e-07, std = 6.349e-08
+
+Objective e: integer division of two floats
+    mean = 6.463e-07, std = 1.927e-07
+
+Objective f part 1: append into a short list
+    mean = 3.053e-07, std = 7.432e-08
+
+Objective f part 2: append into a long list
+    mean = 4.448e-07, std = 1.001e-07
+
+Objective g: call a function that does nothing
+    mean = 2.741e-07, std = 6.752e-08
+
+Objective h: call a function that adds two floats
+    mean = 4.314e-07, std = 1.036e-07
+
+Number of trials = 148
+--------------------
+End of output.
+
+	The first statistics tells us that it takes about 1.02e-06 seconds to redefine a time variable, i.e. suppose that T already stores some float, then 
+
+		T = time.perf_counter()
+
+
+	This is quite significant. In fact, it is one order of magnitude larger than all the other operations in this list. However, by using a large number of loop iterations (i.e. N = 100, see 'generate') and then divide to get the time per each iteration, we effectively suppressed the influence due to this redefinition of time. 
+	For all the objectives, it is not surprising that a pass statement takes the shortest amount of time (Objective a): 1.24e-07 s. 
+
+	Interstingly, my data suggest that it takes just about the same amount of time to do a float addition (Objective b): 2.40e-07 s, and a float multiplication (Objective c): 2.32e-07 s. 
+
+	Integer division of two floats takes the longest time (Objective e): 6.46e-03 s. I think this might because Python has to convert the data type from float to integer at some point. 
+
+	As part 1 and part 2 of Objective f shows, a longer list (len = 10000) does seem to increase the time needed for the operation, but not by much. The difference is roughly off by one standard deviation. 
+
+	Objective g shows that calling a functioni that does nothing (i.e. pass) takes roughly the same amount of time as appending into a short list (Objective f, part 1), which is not too bad, but noticeably longer than doing a simply addition or multipliation. On the other hand, Objective h shows that even calling a function that simply adds two float can increase the time compared to doing nothing. This does make sense. However, notice that the difference in mean time beween Objective h and Objective g is 4.314 - 2.741 = 1.573e-07 s, which is actually shorter compared to the time for adding two floats (Objective b). This suggests Python may have done some optimization internally. 
