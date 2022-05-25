@@ -1,4 +1,8 @@
 [user]
 	name = richardyang1924
+	email = fengshuoyang@ucsb.edu
 [credential]
 	helper = cache
+[core]
+	autocrlf = input
+	safecrlf = warn
