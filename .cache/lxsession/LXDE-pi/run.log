@@ -160,3 +160,12 @@ Openbox-Message: Requested key "End" does not exist on the display
 
 (arandr:1546): Gdk-CRITICAL **: 18:28:04.666: gdk_atom_intern: assertion 'atom_name != NULL' failed
 Openbox-Message: Requested key "End" does not exist on the display
+** Message: 21:07:46.973: wlan0: Disassociated from UCSB Wireless Web
+** Message: 21:07:46.984: Status changed to disconnected
+** Message: 21:07:46.984: wlan0: Associated with UCSB Wireless Web
+** Message: 21:07:46.993: Status changed to connecting
+** Message: 21:07:52.312: wlan0: Expired
+** Message: 21:07:57.480: wlan0: Configured 169.254.172.50/16
+** Message: 21:07:57.481: Status changed to connected
+** Message: 21:08:10.070: wlan0: Configured 169.231.161.252/20
+** Message: 21:08:10.072: wlan0: Expired IPv4LL
