@@ -1,2 +1,4 @@
 [user]
 	name = richardyang1924
+[credential]
+	helper = cache

@@ -1652,3 +1652,4 @@ X Protocol Version 11, Revision 0
 [    70.367] (II) modeset(0): Modeline "1680x1050"x0.0  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz e)
 [    70.367] (--) modeset(0): HDMI max TMDS frequency 300000KHz
 [   512.567] (EE) event1  -   Raspberry Pi Internal Keyboard: client bug: event processing lagging behind by 46ms, your system is too slow
+[  1116.452] (EE) event1  -   Raspberry Pi Internal Keyboard: client bug: event processing lagging behind by 32ms, your system is too slow

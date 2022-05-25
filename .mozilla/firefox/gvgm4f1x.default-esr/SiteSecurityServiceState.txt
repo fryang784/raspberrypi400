@@ -1,5 +1,5 @@
 classify-client.services.mozilla.com:HSTS	1	19137	1684978393146,1,0,2
-firefox.settings.services.mozilla.com:HSTS	1	19137	1684978131740,1,0,2
+firefox.settings.services.mozilla.com:HSTS	1	19137	1684979513625,1,0,2
 services.addons.mozilla.org:HSTS	0	19136	1684925616866,1,0,2
 location.services.mozilla.com:HSTS	0	19136	1684925110380,1,1,2
 spocs.getpocket.com:HSTS	1	19137	1716514129082,1,0,2
