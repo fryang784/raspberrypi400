@@ -6,6 +6,7 @@
 # based on foo_for_loop.py
 #
 # Latest Update
+# 24May22   do away with coord
 # 24May22   grow, death, special head, made coord redundant
 # 22May22   no freeze in movement, clearner exit procedure
 # 21May22   threading, slicing for coord; border
@@ -19,7 +20,7 @@ head_choice = 'ant'
 #==============================================================================
 
 import time
-import keyboard
+# import keyboard
 import numpy as np
 import os
 # The followings are for keyboard input
@@ -32,13 +33,13 @@ import termios
 #%%============================================================================
 # Define functions or class
 #==============================================================================
-def coord_init(dim):
-    """Constructs the position plane, based on the X size and Y size.
-       dim is a list [X, Y]
-    """
-    X, Y = dim
-    coord = np.zeros((Y,X), dtype='int')    # (row, col)
-    return coord
+# def coord_init(dim):
+#     """Constructs the position plane, based on the X size and Y size.
+#        dim is a list [X, Y]
+#     """
+#     X, Y = dim
+#     coord = np.zeros((Y,X), dtype='int')    # (row, col)
+#     return coord
 
 ###############################################################################
 def check_dir(p, p_old):
@@ -68,6 +69,9 @@ def check_dir(p, p_old):
 
 ###############################################################################
 def grow(pos):
+    """Grow the snake if actual length is less than snakeLength, then call the 
+       rand() for a new food location.
+    """
     global snakeLength
 
     if len(pos[0]) < snakeLength:
@@ -80,13 +84,15 @@ def grow(pos):
         # return new pos
         pos = [np.array(y,dtype='int'), np.array(x, dtype='int')]
 
-        # run random number
+        # run random number for new food
         rand()
 
     return pos
 
 ###############################################################################
 def death():
+    """Initiate death sequence.
+    """
     global pos, exitStatus
 
     exitStatus = True
@@ -111,7 +117,8 @@ def rand():
 
 ###############################################################################
 def flipud(pos):
-    """Flip the y values to have proper display orientation
+    """Flip the y values to have proper display orientation.
+       pos: list of two 1D arrays (y, x)
     """
     global Y
     y, x = pos
@@ -121,20 +128,20 @@ def flipud(pos):
     return pos
 
 ###############################################################################
-def move_head(p, pos):
-    """Moves the pos (position of the head) based on P (local) and p (global). 
-       Includes boundary position handling
-       pos: (array of y positions, array of x positions)
+def move_snake(p, pos):
+    """Moves the snake based on command p. Includes boundary position handling
+       Checks/updates snakeLength and deathStatus.
+       pos: list of two 1D arrays (y, x)
     """
     
     global exitStatus, head_ch, food_coord, snakeLength, deathStatus
+    global X, Y
     
     # Check if to exit game
     if p == '\x1b': # <Esc> key
         print('Exiting main thread')
         exitStatus = True
         pass
-
     
     # Get current full coordinates of the snake
     y,  x  = pos    # both are arrays (mutable)
@@ -181,13 +188,6 @@ def move_head(p, pos):
     pos_arr = np.array([new_x, new_y]).T
     deathStatus = len(np.unique(pos_arr, axis=0)) != len(pos_arr)
 
-# 
-#     x_overlap = len(np.unique(new_x)) != len(new_x)
-#     y_overlap = len(np.unique(new_y)) != len(new_y)
-#     deathStatus = np.logical_and(x_overlap, y_overlap)
-#     if deathStatus:
-#         print(new_x)
-#         print(new_y)
     # checks if the head position is out of bound
     # Note: head is the first element within each x,y arrays
     # This will trigger death in later version
@@ -222,9 +222,8 @@ def move_head(p, pos):
 
     return pos
 
-
 ###############################################################################
-def print_pos_arr( pos, coord):
+# def print_pos_arr( pos, coord):
     """Updates coord based on pos
 
        Currently un-used. May be unnecessary.
@@ -419,7 +418,7 @@ head_Dict = head_Lib[head_choice]
 head_ch = head_Dict['w']
 
 # Initiate coordinate:
-coord = coord_init(dim) 
+# coord = coord_init(dim) 
 
 # continuously print:
 # Need to figure out a better way to keep acount of the old command
@@ -437,7 +436,7 @@ try:
         p = check_dir(p_in, p_old)
 
         # move head / position
-        pos = move_head(p, pos)
+        pos = move_snake(p, pos)
 
         if deathStatus:
             death()
@@ -449,7 +448,7 @@ try:
         pos = grow(pos)
     
         # Create the coord that reflects the pos
-        coord = print_pos_arr(pos, coord)
+        # coord = print_pos_arr(pos, coord)
         
         # Creates the string representation of coord, and prints
         display_coord(pos,food_coord)
@@ -459,7 +458,7 @@ try:
         # Update p_old
         p_old = p
     
-        time.sleep(0.1)
+        time.sleep(nap)
 
         clear() # need to figure out a way to not clear when death
     
